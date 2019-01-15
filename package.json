@@ -1,0 +1,88 @@
+{
+	"name": "run-commands-view",
+	"displayName": "Run Commands View",
+	"description": "Run commands from its own view",
+	"version": "0.0.1",
+	"publisher": "usernamehw",
+	"license": "MIT",
+	"engines": {
+		"vscode": "^1.28.0"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/usernamehw/vscode-run-commands-view"
+	},
+	"galleryBanner": {
+		"theme": "dark",
+		"color": "#333333"
+	},
+	"bugs": {
+		"url": "https://github.com/usernamehw/vscode-run-commands-view/issues"
+	},
+	"keywords": [
+		"run",
+		"commands",
+		"view",
+		"multiple",
+		"macro"
+	],
+	"categories": [
+		"Other"
+	],
+	"activationEvents": [
+		"onView:run-commands-view.tree"
+	],
+	"main": "./dist/extension",
+	"contributes": {
+		"configuration": {
+			"type": "object",
+			"title": "Run Commands View",
+			"properties": {
+				"run-commands-view.commands": {
+					"type": "object",
+					"default": {}
+				}
+			}
+		},
+		"viewsContainers": {
+			"activitybar": [
+				{
+					"id": "run-commands",
+					"icon": "./img/activity_bar_icon.svg",
+					"title": "Run Commands"
+				}
+			]
+		},
+		"views": {
+			"run-commands": [
+				{
+					"id": "run-commands-view.tree",
+					"name": "View"
+				}
+			]
+		},
+		"commands": [
+			{
+				"command": "run-commands-view.runCommand",
+				"title": "Run",
+				"category": "Run Commands View"
+			}
+		]
+	},
+	"scripts": {
+		"vscode:prepublish": "webpack --mode production",
+		"compile": "webpack --mode development",
+		"watch": "webpack --mode development --watch --display=minimal",
+		"postinstall": "node ./node_modules/vscode/bin/install"
+	},
+	"devDependencies": {
+		"@types/node": "^8.10.25",
+		"friendly-errors-webpack-plugin": "^1.7.0",
+		"ts-loader": "^5.3.3",
+		"tslint": "^5.12.0",
+		"typescript": "^3.3.0-dev.20190112",
+		"vscode": "^1.1.25",
+		"webpack": "^4.28.3",
+		"webpack-cli": "^3.2.0"
+	}
+}
