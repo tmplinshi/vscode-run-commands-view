@@ -11,9 +11,6 @@ export const EXTENSION_NAME = 'run-commands-view';
 export function activate(extensionContext: ExtensionContext) {
 	const config = { ...workspace.getConfiguration(EXTENSION_NAME) } as any as IConfig;
 
-	// const openFileFromPath = commands.registerCommand(`${EXTENSION_NAME}.open`, async path => {
-	// 	vscode.commands.executeCommand('vscode.open', Uri.file(path));
-	// });
 	// const toggleGlobalSetting = commands.registerCommand(`${EXTENSION_NAME}.toggleGlobalSetting`, (arg: IToggleSetting | string) => {
 	// 	const settings = workspace.getConfiguration(undefined, null);// tslint:disable-line
 
@@ -67,7 +64,11 @@ export function activate(extensionContext: ExtensionContext) {
 				if (typeof command.delayBefore === 'number') {
 					await delay(command.delayBefore);
 				}
-				await commands.executeCommand(command.command, command.args);
+				if (command.command === 'vscode.openFolder') {
+					await commands.executeCommand('vscode.openFolder', Uri.file(command.args));
+				} else {
+					await commands.executeCommand(command.command, command.args);
+				}
 			}
 		}
 	});
@@ -86,7 +87,7 @@ export function activate(extensionContext: ExtensionContext) {
 	}
 
 	extensionContext.subscriptions.push(runCommandsTree, runCommand);
-	// extensionContext.subscriptions.push(openFileFromPath, toggleGlobalSetting);
+	// extensionContext.subscriptions.push(toggleGlobalSetting);
 	extensionContext.subscriptions.push(workspace.onDidChangeConfiguration(updateConfig, EXTENSION_NAME));
 }
 
