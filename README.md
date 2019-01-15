@@ -25,12 +25,31 @@
 ```
 
 ## Specifying the delay
+
 ```javascript
-"🛩 Delay": [
+"⏳ Delay": [
 	"workbench.action.toggleSidebarVisibility",
 	{
 		"command": "workbench.action.toggleSidebarVisibility",
 		"delayBefore": 1000,
 	}
-]
+],
+```
+
+## Open Folder
+
+```javascript
+"📁 Open Folder": {
+	"command": "vscode.openFolder",
+	"args": "C:\\Users"
+},
+```
+
+## Open File
+
+```javascript
+"📝 Open File": {
+	"command": "vscode.openFolder",
+	"args": "C:\\inbox.md"
+},
 ```
