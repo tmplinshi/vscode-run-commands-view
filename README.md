@@ -1,5 +1,11 @@
 # Run Commands View
 
+```javascript
+"run-commands-view.commands": {
+	// Place commands here
+}
+```
+
 ## The easiest example (string):
 
 ```javascript
