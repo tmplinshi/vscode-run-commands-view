@@ -64,11 +64,13 @@ export function activate(extensionContext: ExtensionContext) {
 				if (typeof command.delayBefore === 'number') {
 					await delay(command.delayBefore);
 				}
+				let args = command.args;
+
 				if (command.command === 'vscode.openFolder') {
-					await commands.executeCommand('vscode.openFolder', Uri.file(command.args));
-				} else {
-					await commands.executeCommand(command.command, command.args);
+					args = Uri.file(command.args);
 				}
+
+				await commands.executeCommand(command.command, args);
 			}
 		}
 	});
