@@ -1,3 +1,7 @@
+## 0.0.3
+
+- 🔨 Add icon
+
 ## 0.0.2 `16 Jan 2019`
 
 - ✨ Add ability to bookmark folders/files by hand:
