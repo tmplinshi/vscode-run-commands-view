@@ -8,6 +8,7 @@
 	"engines": {
 		"vscode": "^1.28.0"
 	},
+	"icon": "img/icon.png",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/usernamehw/vscode-run-commands-view"
