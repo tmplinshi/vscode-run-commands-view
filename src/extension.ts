@@ -11,6 +11,28 @@ export const EXTENSION_NAME = 'run-commands-view';
 export function activate(extensionContext: ExtensionContext) {
 	const config = { ...workspace.getConfiguration(EXTENSION_NAME) } as any as IConfig;
 
+	for (const key in config.commands) {
+		const command = config.commands[key];
+		if (typeof command === 'string' || Array.isArray(command)) {
+			continue;
+		}
+		if (command.registerId) {
+			vscode.commands.registerCommand(command.registerId, () => {
+				const sequence = [];
+				for (const item of command.sequence) {
+					if (typeof item === 'string') {
+						sequence.push({
+							command: item,
+						});
+					} else {
+						sequence.push(item);
+					}
+				}
+				vscode.commands.executeCommand(`${EXTENSION_NAME}.runCommand`, sequence);
+			});
+		}
+	}
+
 	// const toggleGlobalSetting = commands.registerCommand(`${EXTENSION_NAME}.toggleGlobalSetting`, (arg: IToggleSetting | string) => {
 	// 	const settings = workspace.getConfiguration(undefined, null);// tslint:disable-line
 

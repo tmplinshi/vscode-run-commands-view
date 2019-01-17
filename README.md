@@ -42,6 +42,20 @@
 ],
 ```
 
+## Register command to invoke it with a keybinding
+
+```javascript
+"📜 Toggle sidebar and minimap": {
+	"registerId": "toggleSidebarMinimap",
+	"sequence": [
+		"workbench.action.toggleSidebarVisibility",
+		"editor.action.toggleMinimap"
+	]
+}
+```
+
+# Additional commands
+
 ## Open Folder
 
 ```javascript
@@ -59,3 +73,13 @@
 	"args": "C:\\inbox.md"
 },
 ```
+
+## TODO
+
+- [x] Run multiple commands
+- [x] Delay
+- [x] Register command to invoke it with a keybinding
+- [ ] Register command without showing it in the tree view
+- [ ] Hierarchy (group commands by folders)
+- [ ] Create a command to bookmark current file
+- [ ] Create a command to toggle settings

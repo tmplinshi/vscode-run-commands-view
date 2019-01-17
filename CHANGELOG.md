@@ -1,3 +1,7 @@
+## 0.1.0 `17 Jan 2019`
+
+- ✨ Add `registerId` to be able to invoke multiple commands with one keybinding
+
 ## 0.0.3 `16 Jan 2019`
 
 - 🔨 Add icon
@@ -6,7 +10,7 @@
 ## 0.0.2 `16 Jan 2019`
 
 - ✨ Add ability to bookmark folders/files by hand:
-```json
+```javascript
 "📁 Open Folder": {
 	"command": "vscode.openFolder",
 	"args": "C:\\Users"

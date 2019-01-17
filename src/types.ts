@@ -1,6 +1,13 @@
 
 export interface IConfig {
-	commands: object;
+	commands: {
+		[key: string]: string | string[] | IRegister;
+	};
+}
+
+export interface IRegister {
+	registerId: 'string';
+	sequence: any[];
 }
 
 export interface IToggleSetting {

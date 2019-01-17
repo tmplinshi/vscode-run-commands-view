@@ -24,6 +24,7 @@
 		"run",
 		"commands",
 		"view",
+		"bookmark",
 		"multiple",
 		"macro"
 	],
@@ -31,7 +32,7 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onView:run-commands-view.tree"
+		"*"
 	],
 	"main": "./dist/extension",
 	"contributes": {
@@ -71,7 +72,7 @@
 		]
 	},
 	"scripts": {
-		"vscode:prepublish": "webpack --mode production",
+		"vscode:prepublish": "webpack --mode production --colors",
 		"compile": "webpack --mode development",
 		"watch": "webpack --mode development --watch --display=minimal",
 		"postinstall": "node ./node_modules/vscode/bin/install"

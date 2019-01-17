@@ -50,7 +50,19 @@ export class RunCommandsProvider implements TreeDataProvider<RunCommand> {
 					});
 					sequence.push(command);
 				} else if (typeof command === 'object' && command !== null) {
-					sequence.push(command);
+					if (command.sequence) {
+						command.sequence.forEach(com => {
+							if (typeof com === 'string') {
+								sequence.push({
+									command: com,
+								});
+							} else {
+								sequence.push(com);
+							}
+						});
+					} else {
+						sequence.push(command);
+					}
 				}
 
 				result.push(new RunCommand(
