@@ -1,3 +1,7 @@
+## 0.2.0 `19 Jan 2019`
+
+- ✨ Add command to toggle simple global settings (string, boolean, number)
+
 ## 0.1.0 `17 Jan 2019`
 
 - ✨ Add `registerId` to be able to invoke multiple commands with one keybinding

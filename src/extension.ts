@@ -33,39 +33,39 @@ export function activate(extensionContext: ExtensionContext) {
 		}
 	}
 
-	// const toggleGlobalSetting = commands.registerCommand(`${EXTENSION_NAME}.toggleGlobalSetting`, (arg: IToggleSetting | string) => {
-	// 	const settings = workspace.getConfiguration(undefined, null);// tslint:disable-line
+	const toggleGlobalSetting = commands.registerCommand(`${EXTENSION_NAME}.toggleSetting`, (arg: IToggleSetting | string) => {
+		const settings = workspace.getConfiguration(undefined, null);// tslint:disable-line
 
-	// 	if (typeof arg === 'string') {
-	// 		// Passed only string, assume that's a boolean settings' name and try to toggle it
-	// 		const currentSettingValue = settings.get(arg);
-	// 		if (typeof currentSettingValue !== 'boolean') {
-	// 			window.showWarningMessage('Passing a string only works with type Boolean');
-	// 			return;
-	// 		}
-	// 		settings.update(arg, !currentSettingValue, true);
-	// 	} else if (typeof arg === 'object') {
-	// 		const settingName = arg.setting;
-	// 		const currentSettingValue = settings.get(settingName);
-	// 		const settingValues = arg.value;
+		if (typeof arg === 'string') {
+			// Passed only string, assume that's a boolean settings' name and try to toggle it
+			const currentSettingValue = settings.get(arg);
+			if (typeof currentSettingValue !== 'boolean') {
+				window.showWarningMessage('Passing a string only works with type Boolean');
+				return;
+			}
+			settings.update(arg, !currentSettingValue, true);
+		} else if (typeof arg === 'object') {
+			const settingName = arg.setting;
+			const currentSettingValue = settings.get(settingName);
+			const settingValues = arg.value;
 
-	// 		if (Array.isArray(settingValues)) {
-	// 			const next = getNextOrFirstElement(settingValues, currentSettingValue);
-	// 			settings.update(settingName, next, true);
-	// 		} else if (typeof settingValues === 'string') {
-	// 			// Handle comma here
-	// 			if (settingValues.indexOf(',')) {
-	// 				const allValues = settingValues.split(',');
-	// 				if (allValues.length === 1) {
-	// 					settings.update(settingName, allValues[0], true);
-	// 				} else {
-	// 					const next = getNextOrFirstElement(allValues, currentSettingValue);
-	// 					settings.update(settingName, next, true);
-	// 				}
-	// 			}
-	// 		}
-	// 	}
-	// });
+			if (Array.isArray(settingValues)) {
+				const next = getNextOrFirstElement(settingValues, currentSettingValue);
+				settings.update(settingName, next, true);
+			} else if (typeof settingValues === 'string') {
+				// Handle comma separated string here (assume it's an array of strings)
+				if (settingValues.indexOf(',')) {
+					const allValues = settingValues.split(',');
+					if (allValues.length === 1) {
+						settings.update(settingName, allValues[0], true);
+					} else {
+						const next = getNextOrFirstElement(allValues, currentSettingValue);
+						settings.update(settingName, next, true);
+					}
+				}
+			}
+		}
+	});
 
 	function getNextOrFirstElement(array: any[], target: any) {
 		const index = array.findIndex(el => el === target);
@@ -110,8 +110,7 @@ export function activate(extensionContext: ExtensionContext) {
 		}
 	}
 
-	extensionContext.subscriptions.push(runCommandsTree, runCommand);
-	// extensionContext.subscriptions.push(toggleGlobalSetting);
+	extensionContext.subscriptions.push(runCommandsTree, runCommand, toggleGlobalSetting);
 	extensionContext.subscriptions.push(workspace.onDidChangeConfiguration(updateConfig, EXTENSION_NAME));
 }
 

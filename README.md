@@ -74,6 +74,18 @@
 },
 ```
 
+## Toggle Settings
+
+```javascript
+"🔢 Toggle Line Numbers": {
+	"command": "run-commands-view.toggleSetting",
+	"args": {
+		"setting": "editor.lineNumbers",
+		"value": "on,off"
+	}
+},
+```
+
 ## TODO
 
 - [x] Run multiple commands
@@ -82,4 +94,4 @@
 - [ ] Register command without showing it in the tree view
 - [ ] Hierarchy (group commands by folders)
 - [ ] Create a command to bookmark current file
-- [ ] Create a command to toggle settings
+- [x] Create a minimalistic command to toggle global settings (strings, bool, number)
