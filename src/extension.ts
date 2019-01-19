@@ -67,7 +67,7 @@ export function activate(extensionContext: ExtensionContext) {
 		}
 	});
 
-	function getNextOrFirstElement(arr: any[], target: any) {
+	function getNextOrFirstElement<T>(arr: T[], target: any): T {
 		const idx = arr.findIndex(el => el === target);
 		return idx === arr.length - 1 ? arr[0] : arr[idx + 1];
 	}
