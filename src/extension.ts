@@ -67,14 +67,9 @@ export function activate(extensionContext: ExtensionContext) {
 		}
 	});
 
-	function getNextOrFirstElement(array: any[], target: any) {
-		const index = array.findIndex(el => el === target);
-
-		if (index === array.length - 1) {
-			return array[0];
-		} else {
-			return array[index + 1];
-		}
+	function getNextOrFirstElement(arr: any[], target: any) {
+		const idx = arr.findIndex(el => el === target);
+		return idx === arr.length - 1 ? arr[0] : arr[idx + 1];
 	}
 
 	const runCommand = commands.registerCommand(`${EXTENSION_NAME}.runCommand`, async commandsToRun => {
