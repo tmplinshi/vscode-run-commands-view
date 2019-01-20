@@ -42,6 +42,19 @@
 ],
 ```
 
+## Using folders/hierarchy (nested commands)
+
+```javascript
+"run-commands-view.commands": {
+	"Toggle Settings ====================": {
+		"items": {
+			"🔋 Toggle Status Bar": "workbench.action.toggleStatusbarVisibility",
+			"🗺 Toggle minimap": "editor.action.toggleMinimap"
+		}
+	},
+}
+```
+
 ## Register command to invoke it with a keybinding
 
 ```javascript
@@ -92,6 +105,7 @@
 - [x] Delay
 - [x] Register command to invoke it with a keybinding
 - [ ] Register command without showing it in the tree view
-- [ ] Hierarchy (group commands by folders)
+- [x] Hierarchy (group commands by folders)
 - [ ] Create a command to bookmark current file
 - [x] Create a minimalistic command to toggle global settings (strings, bool, number)
+- [ ] Explore conditional showing (contexts/when)

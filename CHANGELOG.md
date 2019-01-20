@@ -1,3 +1,7 @@
+## 0.3.0 `21 Jan 2019`
+
+- ✨ Add ability to create nested commands
+
 ## 0.2.0 `19 Jan 2019`
 
 - ✨ Add command to toggle simple global settings (string, boolean, number)

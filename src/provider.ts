@@ -25,21 +25,40 @@ export class RunCommandsProvider implements TreeDataProvider<RunCommand> {
 	}
 
 	getChildren(element?: RunCommand) {
-		if (element) {
-
+		if (element && element.items) {
+			return this.parseCommands(element.items);
 		} else {
 			const allCommands = this.config.commands;
+			return this.parseCommands(allCommands);
+		}
+	}
 
-			const result = [];
-			for (const key in allCommands) {
-				const command = allCommands[key];
-				let sequence: any[] = [];
-				if (typeof command === 'string') {
-					sequence.push({
-						command,
-					});
-				} else if (Array.isArray(command)) {
-					command.forEach(com => {
+	private parseCommands(commands: any) {
+		const result = [];
+		for (const key in commands) {
+			const command = commands[key];
+			let sequence: any[] = [];
+			let items;
+			if (typeof command === 'string') {
+				sequence.push({
+					command,
+				});
+			} else if (Array.isArray(command)) {
+				command.forEach(com => {
+					if (typeof com === 'string') {
+						sequence.push({
+							command: com,
+						});
+					} else {
+						sequence.push(com);
+					}
+				});
+				sequence.push(command);
+			} else if (typeof command === 'object' && command !== null) {
+				if (command.items) {
+					items = command.items;
+				} else if (command.sequence) {
+					command.sequence.forEach((com: any) => {
 						if (typeof com === 'string') {
 							sequence.push({
 								command: com,
@@ -48,45 +67,40 @@ export class RunCommandsProvider implements TreeDataProvider<RunCommand> {
 							sequence.push(com);
 						}
 					});
+				} else {
 					sequence.push(command);
-				} else if (typeof command === 'object' && command !== null) {
-					if (command.sequence) {
-						command.sequence.forEach(com => {
-							if (typeof com === 'string') {
-								sequence.push({
-									command: com,
-								});
-							} else {
-								sequence.push(com);
-							}
-						});
-					} else {
-						sequence.push(command);
-					}
 				}
-
-				result.push(new RunCommand(
-					key,
-					{
-						command: `${EXTENSION_NAME}.runCommand`,
-						title: 'Run Command',
-						arguments: [sequence],
-					},
-				));
 			}
-			return result;
+
+			result.push(new RunCommand(
+				key,
+				{
+					command: `${EXTENSION_NAME}.runCommand`,
+					title: 'Run Command',
+					arguments: [sequence],
+				},
+				items,
+			));
 		}
+		return result;
 	}
 }
 export class RunCommand extends TreeItem {
-	readonly collapsibleState = TreeItemCollapsibleState.None;
+	readonly collapsibleState: TreeItemCollapsibleState = TreeItemCollapsibleState.None;
 
 	constructor(
 		readonly label: string,
-		readonly command: Command,
-		readonly description?: string,
+		readonly command: Command | undefined,
+		readonly items?: any,
+
 	) {
 		super(label);
+
+		if (this.items) {
+			this.collapsibleState = TreeItemCollapsibleState.Expanded;
+			this.command = undefined;
+			this.iconPath = vscode.ThemeIcon.Folder;
+		}
 	}
 
 	contextValue = 'command';
