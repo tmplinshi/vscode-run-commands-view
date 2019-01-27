@@ -9,7 +9,7 @@ vsc-extension-quickstart.md
 **/*.map
 **/*.ts
 *.todo
-*.vs
+.vs
 package-lock.json
 .editorconfig
 .npmrc
