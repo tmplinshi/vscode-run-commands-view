@@ -67,6 +67,19 @@
 }
 ```
 
+## Register command without showing it in the View
+
+```javascript
+"📜 Toggle sidebar and minimap": {
+	"registerId": "toggleSidebarMinimap",
+	"excludeFromView": true,
+	"sequence": [
+		"workbench.action.toggleSidebarVisibility",
+		"editor.action.toggleMinimap"
+	]
+}
+```
+
 # Additional commands
 
 ## Open Folder
@@ -104,7 +117,7 @@
 - [x] Run multiple commands
 - [x] Delay
 - [x] Register command to invoke it with a keybinding
-- [ ] Register command without showing it in the tree view
+- [x] Register command without showing it in the tree view
 - [x] Hierarchy (group commands by folders)
 - [ ] Create a command to bookmark current file
 - [x] Create a minimalistic command to toggle global settings (strings, bool, number)

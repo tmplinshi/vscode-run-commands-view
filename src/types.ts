@@ -8,6 +8,7 @@ export interface IConfig {
 export interface IRegister {
 	registerId: 'string';
 	sequence: any[];
+	excludeFromView: boolean;
 }
 export interface IFolder {
 	isFolder: boolean;

@@ -39,6 +39,11 @@ export class RunCommandsProvider implements TreeDataProvider<RunCommand> {
 			const command = commands[key];
 			let sequence: any[] = [];
 			let items;
+
+			if (command.excludeFromView) {
+				continue;
+			}
+
 			if (typeof command === 'string') {
 				sequence.push({
 					command,
