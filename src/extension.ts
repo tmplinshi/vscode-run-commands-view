@@ -10,27 +10,38 @@ export const EXTENSION_NAME = 'run-commands-view';
 
 export function activate(extensionContext: ExtensionContext) {
 	const config = { ...workspace.getConfiguration(EXTENSION_NAME) } as any as IConfig;
+	const registeredCommandsList: vscode.Disposable[] = [];
 
-	for (const key in config.commands) {
-		const command = config.commands[key];
-		if (typeof command === 'string' || Array.isArray(command)) {
-			continue;
-		}
-		if (command.registerId) {
-			vscode.commands.registerCommand(command.registerId, () => {
-				const sequence = [];
-				for (const item of command.sequence) {
-					if (typeof item === 'string') {
-						sequence.push({
-							command: item,
-						});
-					} else {
-						sequence.push(item);
+	registerCommands();
+
+	function registerCommands() {
+		for (const key in config.commands) {
+			const command = config.commands[key];
+			if (typeof command === 'string' || Array.isArray(command)) {
+				continue;
+			}
+			if (command.registerId) {
+				registeredCommandsList.push(vscode.commands.registerCommand(command.registerId, () => {
+					const sequence = [];
+					for (const item of command.sequence) {
+						if (typeof item === 'string') {
+							sequence.push({
+								command: item,
+							});
+						} else {
+							sequence.push(item);
+						}
 					}
-				}
-				vscode.commands.executeCommand(`${EXTENSION_NAME}.runCommand`, sequence);
-			});
+					vscode.commands.executeCommand(`${EXTENSION_NAME}.runCommand`, sequence);
+				}));
+			}
 		}
+	}
+	function unregisterCommands() {
+		registeredCommandsList.forEach(command => {
+			command.dispose();
+		});
+		registeredCommandsList.length = 0;
 	}
 
 	const toggleGlobalSetting = commands.registerCommand(`${EXTENSION_NAME}.toggleSetting`, (arg: IToggleSetting | string) => {
@@ -102,6 +113,8 @@ export function activate(extensionContext: ExtensionContext) {
 		if (e.affectsConfiguration(`${EXTENSION_NAME}.commands`)) {
 			config.commands = newConfig.commands;
 			runCommandsProvider.refresh();
+			unregisterCommands();
+			registerCommands();
 		}
 	}
 
