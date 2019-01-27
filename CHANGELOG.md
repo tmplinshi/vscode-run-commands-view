@@ -1,3 +1,8 @@
+## 0.3.1 `27 Jan 2019`
+
+- ✨ Hot-reloading of registered commands
+- ✨ Register command without showing it in the view
+
 ## 0.3.0 `21 Jan 2019`
 
 - ✨ Add ability to create nested commands
