@@ -1,3 +1,7 @@
+## 0.3.2 `27 Jan 2019`
+
+- 🐛 Fix excluding `.vs` folder
+
 ## 0.3.1 `27 Jan 2019`
 
 - ✨ Hot-reloading of registered commands
