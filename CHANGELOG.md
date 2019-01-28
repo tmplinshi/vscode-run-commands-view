@@ -1,3 +1,7 @@
+## 0.3.3 `28 Jan 2019`
+
+- 📚 Add demo `.gif`
+
 ## 0.3.2 `27 Jan 2019`
 
 - 🐛 Fix excluding `.vs` folder

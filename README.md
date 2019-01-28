@@ -1,5 +1,7 @@
 # Run Commands View
 
+![demo](img/demo.gif)
+
 ```javascript
 "run-commands-view.commands": {
 	// Place commands here
