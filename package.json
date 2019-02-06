@@ -2,7 +2,7 @@
 	"name": "run-commands-view",
 	"displayName": "Run Commands View",
 	"description": "Run commands from its own view",
-	"version": "0.3.3",
+	"version": "0.3.4",
 	"publisher": "usernamehw",
 	"license": "MIT",
 	"engines": {
