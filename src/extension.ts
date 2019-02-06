@@ -9,7 +9,7 @@ import { delay } from './utils';
 export const EXTENSION_NAME = 'run-commands-view';
 
 export function activate(extensionContext: ExtensionContext) {
-	const config = { ...workspace.getConfiguration(EXTENSION_NAME) } as any as IConfig;
+	const config = JSON.parse(JSON.stringify(workspace.getConfiguration(EXTENSION_NAME))) as IConfig;
 	const registeredCommandsList: vscode.Disposable[] = [];
 
 	registerCommands();
@@ -104,12 +104,15 @@ export function activate(extensionContext: ExtensionContext) {
 	});
 
 	const runCommandsProvider = new RunCommandsProvider(config);
-	const runCommandsTree = window.registerTreeDataProvider(`${EXTENSION_NAME}.tree`, runCommandsProvider);
+	const runCommandsView = vscode.window.createTreeView(`${EXTENSION_NAME}.tree`, {
+		treeDataProvider: runCommandsProvider,
+		showCollapseAll: true,
+	});
 
 	function updateConfig(e: ConfigurationChangeEvent) {
 		if (!e.affectsConfiguration(EXTENSION_NAME)) return;
 
-		const newConfig = { ...workspace.getConfiguration(EXTENSION_NAME) } as any as IConfig;
+		const newConfig = JSON.parse(JSON.stringify(workspace.getConfiguration(EXTENSION_NAME))) as IConfig;
 		if (e.affectsConfiguration(`${EXTENSION_NAME}.commands`)) {
 			config.commands = newConfig.commands;
 			runCommandsProvider.refresh();
@@ -118,7 +121,7 @@ export function activate(extensionContext: ExtensionContext) {
 		}
 	}
 
-	extensionContext.subscriptions.push(runCommandsTree, runCommand, toggleGlobalSetting);
+	extensionContext.subscriptions.push(runCommandsView, runCommand, toggleGlobalSetting);
 	extensionContext.subscriptions.push(workspace.onDidChangeConfiguration(updateConfig, EXTENSION_NAME));
 }
 

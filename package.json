@@ -42,7 +42,13 @@
 			"properties": {
 				"run-commands-view.commands": {
 					"type": "object",
+					"description": "Commands that will be rendered in the View.",
 					"default": {}
+				},
+				"run-commands-view.collapseFoldersByDefault": {
+					"type": "boolean",
+					"description": "Requires reload before being applied.",
+					"default": false
 				}
 			}
 		},
@@ -83,7 +89,7 @@
 		"ts-loader": "^5.3.3",
 		"tslint": "^5.12.0",
 		"typescript": "^3.3.0-dev.20190117",
-		"vscode": "^1.1.25",
+		"vscode": "^1.1.28",
 		"webpack": "^4.28.3",
 		"webpack-cli": "^3.2.0"
 	}

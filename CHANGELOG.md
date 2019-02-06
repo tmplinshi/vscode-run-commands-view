@@ -1,3 +1,8 @@
+## 0.3.4 `07 Feb 2019`
+
+- ✨ Add button `collapse All`
+- ✨ Add setting `collapseFoldersByDefault`
+
 ## 0.3.3 `28 Jan 2019`
 
 - 📚 Add demo `.gif`

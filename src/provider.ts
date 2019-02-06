@@ -84,27 +84,31 @@ export class RunCommandsProvider implements TreeDataProvider<RunCommand> {
 					title: 'Run Command',
 					arguments: [sequence],
 				},
+				this.config.collapseFoldersByDefault,
 				items,
 			));
 		}
 		return result;
 	}
 }
+
 export class RunCommand extends TreeItem {
-	readonly collapsibleState: TreeItemCollapsibleState = TreeItemCollapsibleState.None;
+	collapsibleState: TreeItemCollapsibleState;
 
 	constructor(
 		readonly label: string,
 		readonly command: Command | undefined,
+		readonly collapseFoldersByDefault: boolean,
 		readonly items?: any,
-
 	) {
 		super(label);
 
 		if (this.items) {
-			this.collapsibleState = TreeItemCollapsibleState.Expanded;
+			this.collapsibleState = collapseFoldersByDefault ? TreeItemCollapsibleState.Collapsed : TreeItemCollapsibleState.Expanded;
 			this.command = undefined;
 			this.iconPath = vscode.ThemeIcon.Folder;
+		} else {
+			this.collapsibleState = TreeItemCollapsibleState.None;
 		}
 	}
 

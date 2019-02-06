@@ -3,6 +3,7 @@ export interface IConfig {
 	commands: {
 		[key: string]: string | string[] | IRegister & IFolder;
 	};
+	collapseFoldersByDefault: boolean;
 }
 
 export interface IRegister {
