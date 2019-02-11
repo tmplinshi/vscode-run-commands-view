@@ -5,7 +5,7 @@ import { IConfig } from './types';
 
 export class RunCommandsProvider implements TreeDataProvider<RunCommand> {
 
-	private _onDidChangeTreeData: EventEmitter<RunCommand | undefined> = new EventEmitter<RunCommand | undefined>();
+	private readonly _onDidChangeTreeData: EventEmitter<RunCommand | undefined> = new EventEmitter<RunCommand | undefined>();
 	readonly onDidChangeTreeData: Event<RunCommand | undefined> = this._onDidChangeTreeData.event;
 
 	constructor(
