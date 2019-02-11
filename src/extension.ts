@@ -20,7 +20,7 @@ export function activate(extensionContext: ExtensionContext) {
 			if (typeof command === 'string' || Array.isArray(command)) {
 				continue;
 			}
-			if (command.registerId) {
+			if (command && command.registerId) {
 				registeredCommandsList.push(vscode.commands.registerCommand(command.registerId, () => {
 					const sequence = [];
 					for (const item of command.sequence) {

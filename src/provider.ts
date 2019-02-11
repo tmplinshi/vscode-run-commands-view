@@ -2,6 +2,7 @@ import { Command, Event, EventEmitter, TreeDataProvider, TreeItem, TreeItemColla
 import * as vscode from 'vscode';
 import { EXTENSION_NAME } from './extension';
 import { IConfig } from './types';
+import { isObject } from './utils';
 
 export class RunCommandsProvider implements TreeDataProvider<RunCommand> {
 
@@ -37,10 +38,13 @@ export class RunCommandsProvider implements TreeDataProvider<RunCommand> {
 		const result = [];
 		for (const key in commands) {
 			const command = commands[key];
+			if (typeof command !== 'string' && !isObject(command) && !Array.isArray(command)) {
+				continue;
+			}
 			let sequence: any[] = [];
 			let items;
 
-			if (command.excludeFromView) {
+			if (command && command.excludeFromView) {
 				continue;
 			}
 
