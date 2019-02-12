@@ -83,7 +83,7 @@ export function activate(extensionContext: ExtensionContext) {
 		return idx === arr.length - 1 ? arr[0] : arr[idx + 1];
 	}
 
-	const runCommand = commands.registerCommand(`${EXTENSION_NAME}.runCommand`, async commandsToRun => {
+	const runCommand = commands.registerCommand(`${EXTENSION_NAME}.runCommand`, async (commandsToRun: any[]) => {
 		for (const command of commandsToRun) {
 			// console.log(JSON.stringify(command, undefined, '	'));
 			if (typeof command === 'string') {

@@ -4,6 +4,29 @@ import { EXTENSION_NAME } from './extension';
 import { IConfig } from './types';
 import { isObject } from './utils';
 
+export class RunCommand extends TreeItem {
+	collapsibleState: TreeItemCollapsibleState;
+
+	constructor(
+		readonly label: string,
+		readonly command: Command | undefined,
+		readonly collapseFoldersByDefault: boolean,
+		readonly items?: object,
+	) {
+		super(label);
+
+		if (this.items) {
+			this.collapsibleState = collapseFoldersByDefault ? TreeItemCollapsibleState.Collapsed : TreeItemCollapsibleState.Expanded;
+			this.command = undefined;
+			this.iconPath = vscode.ThemeIcon.Folder;
+		} else {
+			this.collapsibleState = TreeItemCollapsibleState.None;
+		}
+	}
+
+	contextValue = 'command';
+}
+
 export class RunCommandsProvider implements TreeDataProvider<RunCommand> {
 
 	private readonly _onDidChangeTreeData: EventEmitter<RunCommand | undefined> = new EventEmitter<RunCommand | undefined>();
@@ -34,7 +57,7 @@ export class RunCommandsProvider implements TreeDataProvider<RunCommand> {
 		}
 	}
 
-	private parseCommands(commands: any) {
+	private parseCommands(commands: object) {
 		const result = [];
 		for (const key in commands) {
 			const command = commands[key];
@@ -42,7 +65,7 @@ export class RunCommandsProvider implements TreeDataProvider<RunCommand> {
 				continue;
 			}
 			let sequence: any[] = [];
-			let items;
+			let items: object | undefined;
 
 			if (command && command.excludeFromView) {
 				continue;
@@ -94,27 +117,4 @@ export class RunCommandsProvider implements TreeDataProvider<RunCommand> {
 		}
 		return result;
 	}
-}
-
-export class RunCommand extends TreeItem {
-	collapsibleState: TreeItemCollapsibleState;
-
-	constructor(
-		readonly label: string,
-		readonly command: Command | undefined,
-		readonly collapseFoldersByDefault: boolean,
-		readonly items?: any,
-	) {
-		super(label);
-
-		if (this.items) {
-			this.collapsibleState = collapseFoldersByDefault ? TreeItemCollapsibleState.Collapsed : TreeItemCollapsibleState.Expanded;
-			this.command = undefined;
-			this.iconPath = vscode.ThemeIcon.Folder;
-		} else {
-			this.collapsibleState = TreeItemCollapsibleState.None;
-		}
-	}
-
-	contextValue = 'command';
 }

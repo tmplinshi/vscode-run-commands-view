@@ -122,7 +122,7 @@
 		"class-name": true,
 		"encoding": true,
 		"adjacent-overload-signatures": true,
-		"await-promise": true,
+		"await-promise": false,
 		"no-conditional-assignment": true,
 		"no-duplicate-super": true,
 		"no-string-literal": true,
