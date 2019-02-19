@@ -106,6 +106,7 @@ export function activate(extensionContext: ExtensionContext) {
 	const runCommandsProvider = new RunCommandsProvider(config);
 	const runCommandsView = vscode.window.createTreeView(`${EXTENSION_NAME}.tree`, {
 		treeDataProvider: runCommandsProvider,
+		// @ts-ignore
 		showCollapseAll: true,
 	});
 

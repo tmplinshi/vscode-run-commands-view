@@ -8,7 +8,7 @@
 }
 ```
 
-## The easiest example (string):
+## The simplest example (string):
 
 ```javascript
 "💤 Toggle Status Bar": "workbench.action.toggleStatusbarVisibility",
@@ -127,4 +127,3 @@
 - [ ] Create a command to bookmark current file
 - [x] Create a minimalistic command to toggle global settings (strings, bool, number)
 - [ ] Explore conditional showing (contexts/when)
-- [ ] Explore saving global folder expansion state

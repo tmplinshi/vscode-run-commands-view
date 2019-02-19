@@ -1,3 +1,7 @@
+## 0.3.5 `19 Feb 2019`
+
+- 🔨 Minor npe guard fixes
+
 ## 0.3.4 `07 Feb 2019`
 
 - ✨ Add button `collapse All`
