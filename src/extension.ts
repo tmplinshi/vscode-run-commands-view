@@ -4,7 +4,7 @@ import * as vscode from 'vscode';
 
 import { RunCommandsProvider } from './provider';
 import { IConfig, IToggleSetting } from './types';
-import { delay } from './utils';
+import { delay, isObject } from './utils';
 
 export const EXTENSION_NAME = 'run-commands-view';
 
@@ -55,7 +55,7 @@ export function activate(extensionContext: ExtensionContext) {
 				return;
 			}
 			settings.update(arg, !currentSettingValue, true);
-		} else if (typeof arg === 'object') {
+		} else if (isObject(arg)) {
 			const settingName = arg.setting;
 			const currentSettingValue = settings.get(settingName);
 			const settingValues = arg.value;
