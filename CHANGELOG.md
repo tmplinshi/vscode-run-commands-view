@@ -1,3 +1,7 @@
+## 0.3.6 `22 Feb 2019`
+
+- ✨ Context Menu entry to quickly reveal item in `settings.json`
+
 ## 0.3.5 `19 Feb 2019`
 
 - 🔨 Minor npe guard fixes

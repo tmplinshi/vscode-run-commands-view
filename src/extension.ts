@@ -2,7 +2,7 @@
 import { commands, ConfigurationChangeEvent, ExtensionContext, Uri, window, workspace } from 'vscode';
 import * as vscode from 'vscode';
 
-import { RunCommandsProvider } from './provider';
+import { RunCommand, RunCommandsProvider } from './provider';
 import { IConfig, IToggleSetting } from './types';
 import { delay, isObject } from './utils';
 
@@ -110,6 +110,26 @@ export function activate(extensionContext: ExtensionContext) {
 		showCollapseAll: true,
 	});
 
+	const revealCommand = vscode.commands.registerCommand(`${EXTENSION_NAME}.revealCommand`, async (com: RunCommand) => {
+		const symbolName = com.label;
+		const activeTextEditor = vscode.window.activeTextEditor;
+		if (activeTextEditor && activeTextEditor.document.fileName.endsWith('settings.json') && activeTextEditor.document.languageId === 'jsonc') {
+			revealInSettings(symbolName);
+			return;
+		}
+		revealInSettings(symbolName, true);
+	});
+
+	async function revealInSettings(symbolName: string, shouldOpenSettings = false) {
+		const delayBeforeQuickOpen = shouldOpenSettings ? 1300 : 0;
+		if (shouldOpenSettings) {
+			await vscode.commands.executeCommand('workbench.action.openSettingsJson');
+		}
+		setTimeout(async () => {
+			await vscode.commands.executeCommand('workbench.action.quickOpen', `@${symbolName}`);
+		}, delayBeforeQuickOpen);
+	}
+
 	function updateConfig(e: ConfigurationChangeEvent) {
 		if (!e.affectsConfiguration(EXTENSION_NAME)) return;
 
@@ -122,7 +142,7 @@ export function activate(extensionContext: ExtensionContext) {
 		}
 	}
 
-	extensionContext.subscriptions.push(runCommandsView, runCommand, toggleGlobalSetting);
+	extensionContext.subscriptions.push(runCommandsView, runCommand, toggleGlobalSetting, revealCommand);
 	extensionContext.subscriptions.push(workspace.onDidChangeConfiguration(updateConfig, EXTENSION_NAME));
 }
 

@@ -74,8 +74,21 @@
 				"command": "run-commands-view.runCommand",
 				"title": "Run",
 				"category": "Run Commands View"
+			},
+			{
+				"command": "run-commands-view.revealCommand",
+				"title": "Reveal in Settings",
+				"category": "Run Commands View"
 			}
-		]
+		],
+		"menus": {
+			"view/item/context": [
+				{
+					"command": "run-commands-view.revealCommand",
+					"when": "view == run-commands-view.tree && viewItem == command"
+				}
+			]
+		}
 	},
 	"scripts": {
 		"vscode:prepublish": "webpack --mode production --colors",
