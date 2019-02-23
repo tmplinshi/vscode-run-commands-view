@@ -1,3 +1,8 @@
+## 0.3.7 `24 Feb 2019`
+
+- ✨ Initial work on autocomplete/validation (only the first level of `commands` in `settings.json`).
+- 🔨 Smaller sized `.gif`
+
 ## 0.3.6 `22 Feb 2019`
 
 - ✨ Context Menu entry to quickly reveal item in `settings.json`
