@@ -77,6 +77,51 @@ export function activate(extensionContext: ExtensionContext) {
 			}
 		}
 	});
+	const incrementGlobalSetting = commands.registerCommand(`${EXTENSION_NAME}.incrementSetting`, (arg: string | IToggleSetting) => {
+		let setting;
+		let value;
+		if (typeof arg === 'string') {
+			setting = arg;
+		} else if (isObject(arg)) {
+			setting = arg.setting;
+			value = arg.value;
+		}
+		if (typeof value === 'undefined') {
+			value = 1;
+		}
+		incrementSetting(setting, value);
+	});
+	const decrementGlobalSetting = commands.registerCommand(`${EXTENSION_NAME}.decrementSetting`, (arg: string | IToggleSetting) => {
+		let setting;
+		let value;
+		if (typeof arg === 'string') {
+			setting = arg;
+		} else if (isObject(arg)) {
+			setting = arg.setting;
+			value = arg.value;
+		}
+		if (typeof value === 'undefined') {
+			value = 1;
+		}
+		incrementSetting(setting, -value);
+	});
+	function incrementSetting(settingName: any, n: any): void {
+		if (typeof settingName !== 'string') {
+			window.showWarningMessage('Setting name must be a string');
+			return;
+		}
+		if (typeof n !== 'number' || isNaN(n)) {
+			window.showWarningMessage('Only numbers allowed');
+			return;
+		}
+		const settings = workspace.getConfiguration(undefined, null);// tslint:disable-line
+		const currentSettingValue = settings.get(settingName);
+		if (typeof currentSettingValue !== 'number') {
+			window.showWarningMessage('Only works for settings of type `number`');
+			return;
+		}
+		settings.update(settingName, currentSettingValue + n, true);
+	}
 
 	function getNextOrFirstElement<T>(arr: T[], target: any): T {
 		const idx = arr.findIndex(el => el === target);
@@ -142,7 +187,7 @@ export function activate(extensionContext: ExtensionContext) {
 		}
 	}
 
-	extensionContext.subscriptions.push(runCommandsView, runCommand, toggleGlobalSetting, revealCommand);
+	extensionContext.subscriptions.push(runCommandsView, runCommand, toggleGlobalSetting, revealCommand, incrementGlobalSetting, decrementGlobalSetting);
 	extensionContext.subscriptions.push(workspace.onDidChangeConfiguration(updateConfig, EXTENSION_NAME));
 }
 
