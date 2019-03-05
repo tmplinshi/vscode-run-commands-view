@@ -12,11 +12,11 @@ export function activate(extensionContext: ExtensionContext) {
 	const config = JSON.parse(JSON.stringify(workspace.getConfiguration(EXTENSION_NAME))) as IConfig;
 	const registeredCommandsList: vscode.Disposable[] = [];
 
-	registerCommands();
+	registerCommands(config.commands);
 
-	function registerCommands() {
-		for (const key in config.commands) {
-			const command = config.commands[key];
+	function registerCommands(configCommands: IConfig['commands']) {
+		for (const key in configCommands) {
+			const command = configCommands[key];
 			if (typeof command === 'string' || Array.isArray(command)) {
 				continue;
 			}
@@ -34,6 +34,9 @@ export function activate(extensionContext: ExtensionContext) {
 					}
 					vscode.commands.executeCommand(`${EXTENSION_NAME}.runCommand`, sequence);
 				}));
+			}
+			if (command && command.items) {
+				registerCommands(command.items);
 			}
 		}
 	}
@@ -183,7 +186,7 @@ export function activate(extensionContext: ExtensionContext) {
 			config.commands = newConfig.commands;
 			runCommandsProvider.refresh();
 			unregisterCommands();
-			registerCommands();
+			registerCommands(config.commands);
 		}
 	}
 
