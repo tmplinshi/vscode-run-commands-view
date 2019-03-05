@@ -85,7 +85,120 @@
 									"properties": {
 										"items": {
 											"type": "object",
-											"description": "Nested items."
+											"description": "Nested commands that will be rendered in the View.",
+											"patternProperties": {
+												"^.*$": {
+													"anyOf": [
+														{
+															"type": "string",
+															"description": "Name of the command to execute."
+														},
+														{
+															"type": "array",
+															"description": "List of commands(string or object) that will be executed one after another.",
+															"items": {
+																"oneOf": [
+																	{
+																		"type": "string",
+																		"description": "Name of the command to execute."
+																	},
+																	{
+																		"type": "object",
+																		"properties": {
+																			"command": {
+																				"type": "string",
+																				"description": "Name of the command to execute."
+																			},
+																			"delayBefore": {
+																				"type": "number",
+																				"description": "Delay (in ms) before executing the command."
+																			},
+																			"args": {
+																				"description": "Arguments to pass to the command to execute."
+																			}
+																		},
+																		"additionalProperties": false
+																	}
+																]
+															}
+														},
+														{
+															"type": "object",
+															"description": "This item cannot execute commands. It's purpose is to be a `folder` and contain nested items.",
+															"properties": {
+																"items": {
+																	"type": "object",
+																	"description": "Nested items. TODO: add 3rd lvl support"
+																}
+															},
+															"additionalProperties": false
+														},
+														{
+															"type": "object",
+															"properties": {
+																"command": {
+																	"type": "string",
+																	"description": "Name of the command to execute."
+																},
+																"delayBefore": {
+																	"type": "number",
+																	"description": "Delay (in ms) before executing the command."
+																},
+																"args": {
+																	"description": "Arguments to pass to the command to execute."
+																}
+															},
+															"additionalProperties": false
+														},
+														{
+															"type": "object",
+															"description": "Execute multiple commands.",
+															"properties": {
+																"sequence": {
+																	"type": "array",
+																	"items": {
+																		"oneOf": [
+																			{
+																				"type": "string",
+																				"description": "Name of the command to execute."
+																			},
+																			{
+																				"type": "object",
+																				"properties": {
+																					"command": {
+																						"type": "string",
+																						"description": "Name of the command to execute."
+																					},
+																					"delayBefore": {
+																						"type": "number",
+																						"description": "Delay (in ms) before executing the command."
+																					},
+																					"args": {
+																						"description": "Arguments to pass to the command to execute."
+																					}
+																				},
+																				"additionalProperties": false
+																			}
+																		]
+																	},
+																	"description": "List of commands(string or object) that will be executed one after another."
+																},
+																"registerId": {
+																	"type": "string",
+																	"description": "Register sequence of commands to be able to invoke it with a single keybinding."
+																},
+																"excludeFromView": {
+																	"type": "boolean",
+																	"default": false,
+																	"description": "Don't show this item in the View."
+																}
+															},
+															"additionalProperties": false
+														}
+													]
+												}
+											},
+											"default": {}
 										}
 									},
 									"additionalProperties": false
