@@ -1,3 +1,9 @@
+## 0.3.8 `05 Mar 2019`
+
+- ✨ More additional commands: increment/decrement a setting `run-commands-view.incrementSetting` / `run-commands-view.decrementSetting` (works only for numbers)
+- ✨ Autocomplete/validation for nested `commands` `items` (2nd level) in `settings.json`
+- 🐛 Register nested commands should work
+
 ## 0.3.7 `24 Feb 2019`
 
 - ✨ Initial work on autocomplete/validation (only the first level of `commands` in `settings.json`).

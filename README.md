@@ -114,6 +114,25 @@
 },
 ```
 
+## Increment/decrement Settings
+
+```javascript
+"fontSize ➕": {
+	"command": "run-commands-view.incrementSetting",
+	"args": {
+		"setting": "editor.fontSize",
+		"value": 0.5
+	}
+},
+"fontSize ➖": {
+	"command": "run-commands-view.decrementSetting",
+	"args": {
+		"setting": "editor.fontSize",
+		"value": 0.5
+	}
+},
+```
+
 ## TODO
 
 - [x] Run multiple commands
@@ -122,7 +141,6 @@
 - [x] Register command without showing it in the tree view
 - [x] Hierarchy (group commands by folders)
 - [ ] Add items to Command Palette (blocked by https://github.com/Microsoft/vscode/issues/1422)
-- [ ] JSON autocomplete in settings (blocked: vscode doesn't seem to support recursive schema in extension settings contribution)
 - [ ] Create a command to bookmark current file
 - [x] Create a minimalistic command to toggle global settings (strings, bool, number)
 - [ ] Explore conditional showing (contexts/when)
