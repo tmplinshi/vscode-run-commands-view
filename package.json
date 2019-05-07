@@ -304,6 +304,10 @@
 				"command": "run-commands-view.revealCommand",
 				"title": "Reveal in Settings",
 				"category": "Run Commands View"
+			},
+			{
+				"command": "openFolder",
+				"title": "Open Folder"
 			}
 		],
 		"menus": {
@@ -313,7 +317,11 @@
 					"when": "view == run-commands-view.tree && viewItem == command"
 				}
 			]
-		}
+		},
+		"commandPalette": [{
+			"command": "openFolder",
+			"when": "never"
+		}]
 	},
 	"scripts": {
 		"vscode:prepublish": "webpack --mode production --colors",

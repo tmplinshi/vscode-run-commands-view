@@ -151,6 +151,10 @@ export function activate(extensionContext: ExtensionContext) {
 		}
 	});
 
+	const openFolder = commands.registerCommand('openFolder', async (path: string) => {
+		commands.executeCommand('vscode.openFolder', Uri.file(path));
+	});
+
 	const runCommandsProvider = new RunCommandsProvider(config);
 	const runCommandsView = vscode.window.createTreeView(`${EXTENSION_NAME}.tree`, {
 		treeDataProvider: runCommandsProvider,
@@ -190,7 +194,7 @@ export function activate(extensionContext: ExtensionContext) {
 		}
 	}
 
-	extensionContext.subscriptions.push(runCommandsView, runCommand, toggleGlobalSetting, revealCommand, incrementGlobalSetting, decrementGlobalSetting);
+	extensionContext.subscriptions.push(runCommandsView, runCommand, openFolder, toggleGlobalSetting, revealCommand, incrementGlobalSetting, decrementGlobalSetting);
 	extensionContext.subscriptions.push(workspace.onDidChangeConfiguration(updateConfig, EXTENSION_NAME));
 }
 

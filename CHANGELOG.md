@@ -1,3 +1,7 @@
+## 0.3.9 `07 May 2019`
+
+- ✨ Register more compact command `openFolder`
+
 ## 0.3.8 `05 Mar 2019`
 
 - ✨ More additional commands: increment/decrement a setting `run-commands-view.incrementSetting` / `run-commands-view.decrementSetting` (works only for numbers)

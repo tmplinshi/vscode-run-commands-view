@@ -88,7 +88,7 @@
 
 ```javascript
 "📁 Open Folder": {
-	"command": "vscode.openFolder",
+	"command": "openFolder",
 	"args": "C:\\Users"
 },
 ```
@@ -97,7 +97,7 @@
 
 ```javascript
 "📝 Open File": {
-	"command": "vscode.openFolder",
+	"command": "openFolder",
 	"args": "C:\\inbox.md"
 },
 ```
@@ -133,14 +133,13 @@
 },
 ```
 
-## TODO
+## How to build
 
-- [x] Run multiple commands
-- [x] Delay
-- [x] Register command to invoke it with a keybinding
-- [x] Register command without showing it in the tree view
-- [x] Hierarchy (group commands by folders)
-- [ ] Add items to Command Palette (blocked by https://github.com/Microsoft/vscode/issues/1422)
-- [ ] Create a command to bookmark current file
-- [x] Create a minimalistic command to toggle global settings (strings, bool, number)
-- [ ] Explore conditional showing (contexts/when)
+Before running this extension in debugger you must first execute
+```
+yarn watch
+```
+or
+```
+npm run watch
+```
