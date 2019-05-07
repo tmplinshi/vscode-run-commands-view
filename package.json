@@ -2,7 +2,7 @@
 	"name": "run-commands-view",
 	"displayName": "Run Commands View",
 	"description": "Run commands from its own view",
-	"version": "0.3.8",
+	"version": "0.3.9",
 	"publisher": "usernamehw",
 	"license": "MIT",
 	"engines": {
@@ -318,10 +318,12 @@
 				}
 			]
 		},
-		"commandPalette": [{
-			"command": "openFolder",
-			"when": "never"
-		}]
+		"commandPalette": [
+			{
+				"command": "openFolder",
+				"when": "never"
+			}
+		]
 	},
 	"scripts": {
 		"vscode:prepublish": "webpack --mode production --colors",
