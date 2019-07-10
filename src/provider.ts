@@ -66,7 +66,7 @@ export class RunCommandsProvider implements TreeDataProvider<RunCommand> {
 			}
 			let sequence: any[] = [];
 			let items: object | undefined;
-
+			// @ts-ignore
 			if (command && command.excludeFromView) {
 				continue;
 			}
