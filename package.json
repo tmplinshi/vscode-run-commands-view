@@ -23,10 +23,13 @@
 	"keywords": [
 		"run",
 		"commands",
-		"view",
-		"bookmark",
+		"tree-view",
 		"multiple",
-		"macro"
+		"macro",
+		"hierarchy",
+		"toggle",
+		"settings",
+		"delay"
 	],
 	"categories": [
 		"Other"
