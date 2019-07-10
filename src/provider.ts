@@ -86,11 +86,11 @@ export class RunCommandsProvider implements TreeDataProvider<RunCommand> {
 					}
 				});
 				sequence.push(command);
-			} else if (typeof command === 'object' && command !== null) {
+			} else if (typeof command === 'object' && command !== null) {// tslint:disable-line
 				if (command.items) {
-					items = command.items;
+					items = command.items;// tslint:disable-line
 				} else if (command.sequence) {
-					command.sequence.forEach((com: any) => {
+					command.sequence.forEach((com: any) => {// tslint:disable-line
 						if (typeof com === 'string') {
 							sequence.push({
 								command: com,

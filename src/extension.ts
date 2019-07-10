@@ -52,7 +52,7 @@ export function activate(extensionContext: ExtensionContext) {
 
 		if (typeof arg === 'string') {
 			// Passed only string, assume that's a boolean settings' name and try to toggle it
-			const currentSettingValue = settings.get(arg);
+			const currentSettingValue = settings.get<any>(arg);
 			if (typeof currentSettingValue !== 'boolean') {
 				window.showWarningMessage('Passing a string only works with type Boolean');
 				return;
@@ -66,7 +66,7 @@ export function activate(extensionContext: ExtensionContext) {
 			if (Array.isArray(settingValues)) {
 				const next = getNextOrFirstElement(settingValues, currentSettingValue);
 				settings.update(settingName, next, true);
-			} else if (typeof settingValues === 'string') {
+			} else if (typeof settingValues === 'string') {// tslint:disable-line
 				// Handle comma separated string here (assume it's an array of strings)
 				if (settingValues.indexOf(',')) {
 					const allValues = settingValues.split(',');
@@ -118,7 +118,7 @@ export function activate(extensionContext: ExtensionContext) {
 			return;
 		}
 		const settings = workspace.getConfiguration(undefined, null);// tslint:disable-line
-		const currentSettingValue = settings.get(settingName);
+		const currentSettingValue = settings.get<any>(settingName);
 		if (typeof currentSettingValue !== 'number') {
 			window.showWarningMessage('Only works for settings of type `number`');
 			return;
@@ -137,16 +137,18 @@ export function activate(extensionContext: ExtensionContext) {
 			if (typeof command === 'string') {
 				await commands.executeCommand(command);
 			} else {
-				if (typeof command.delayBefore === 'number') {
-					await delay(command.delayBefore);
-				}
-				let args = command.args;
+				if (isObject(command)) {
+					if (typeof command.delayBefore === 'number') {
+						await delay(command.delayBefore);
+					}
+					let args = command.args;
 
-				if (command.command === 'vscode.openFolder') {
-					args = Uri.file(command.args);
-				}
+					if (command.command === 'vscode.openFolder') {
+						args = Uri.file(command.args);// tslint:disable-line
+					}
 
-				await commands.executeCommand(command.command, args);
+					await commands.executeCommand(command.command, args);// tslint:disable-line
+				}
 			}
 		}
 	});
