@@ -11,6 +11,9 @@
 		"sourceMap": true,
 		"rootDir": "src",
 		"strict": true,
+		"esModuleInterop": true,
+		"skipLibCheck": true,
+		"skipDefaultLibCheck": true,
 	},
 	"exclude": [
 		"node_modules",

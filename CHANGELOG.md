@@ -1,3 +1,8 @@
+## 0.3.10 `12 Jul 2019`
+
+- ✨ Update Activity Bar icon to match **1.37** vscode style icons
+- ✨ New command to add item to settings object `setting.merge`
+
 ## 0.3.9 `07 May 2019`
 
 - ✨ Register more compact command `openFolder`

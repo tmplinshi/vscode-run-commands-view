@@ -2,7 +2,7 @@
 
 ![demo](img/demo.gif)
 
-```javascript
+```js
 "run-commands-view.commands": {
 	// Place commands here
 }
@@ -10,13 +10,13 @@
 
 ## The simplest example (string):
 
-```javascript
+```js
 "💤 Toggle Status Bar": "workbench.action.toggleStatusbarVisibility",
 ```
 
 ## Specifying arguments (object):
 
-```javascript
+```js
 "🔶 Insert text": {
 	"command": "editor.action.insertSnippet",
 	"args": { "snippet": "text" }
@@ -25,7 +25,7 @@
 
 ## Running multiple commands in sequence (array of strings)
 
-```javascript
+```js
 "📒 Toggle Minimap & Status Bar": [
 	"editor.action.toggleMinimap",
 	"workbench.action.toggleStatusbarVisibility"
@@ -34,19 +34,19 @@
 
 ## Specifying the delay
 
-```javascript
+```js
 "⏳ Delay": [
 	"workbench.action.toggleSidebarVisibility",
 	{
 		"command": "workbench.action.toggleSidebarVisibility",
-		"delayBefore": 1000,
+		"delayBefore": 1000,// <=====
 	}
 ],
 ```
 
 ## Using folders/hierarchy (nested commands)
 
-```javascript
+```js
 "run-commands-view.commands": {
 	"Toggle Settings ====================": {
 		"items": {
@@ -59,9 +59,9 @@
 
 ## Register command to invoke it with a keybinding
 
-```javascript
+```js
 "📜 Toggle sidebar and minimap": {
-	"registerId": "toggleSidebarMinimap",
+	"registerId": "toggleSidebarMinimap",// <=====
 	"sequence": [
 		"workbench.action.toggleSidebarVisibility",
 		"editor.action.toggleMinimap"
@@ -71,10 +71,10 @@
 
 ## Register command without showing it in the View
 
-```javascript
+```js
 "📜 Toggle sidebar and minimap": {
 	"registerId": "toggleSidebarMinimap",
-	"excludeFromView": true,
+	"excludeFromView": true,// <=====
 	"sequence": [
 		"workbench.action.toggleSidebarVisibility",
 		"editor.action.toggleMinimap"
@@ -86,7 +86,7 @@
 
 ## Open Folder
 
-```javascript
+```js
 "📁 Open Folder": {
 	"command": "openFolder",
 	"args": "C:\\Users"
@@ -95,7 +95,7 @@
 
 ## Open File
 
-```javascript
+```js
 "📝 Open File": {
 	"command": "openFolder",
 	"args": "C:\\inbox.md"
@@ -104,7 +104,7 @@
 
 ## Toggle Settings
 
-```javascript
+```js
 "🔢 Toggle Line Numbers": {
 	"command": "run-commands-view.toggleSetting",
 	"args": {
@@ -116,7 +116,7 @@
 
 ## Increment/decrement Settings
 
-```javascript
+```js
 "fontSize ➕": {
 	"command": "run-commands-view.incrementSetting",
 	"args": {
@@ -130,6 +130,28 @@
 		"setting": "editor.fontSize",
 		"value": 0.5
 	}
+},
+```
+
+## Add property to Settings object (nesting supported)
+
+```js
+"✨ add item to object": {
+	"command": "setting.merge",
+	"args": {
+		"setting": "[markdown]",
+		"value": {
+			"editor.lineHeight": 40
+		}
+	}
+},
+```
+Results in:
+```diff
+"[markdown]": {
+	"editor.wordWrap": "on",
+	"editor.quickSuggestions": false,
++	"editor.lineHeight": 40
 },
 ```
 

@@ -1,4 +1,5 @@
 'use strict';
+import merge from 'lodash/merge';
 import { commands, ConfigurationChangeEvent, ExtensionContext, Uri, window, workspace } from 'vscode';
 import * as vscode from 'vscode';
 
@@ -13,6 +14,27 @@ export function activate(extensionContext: ExtensionContext) {
 	const registeredCommandsList: vscode.Disposable[] = [];
 
 	registerCommands(config.commands);
+
+	const settingMerge = commands.registerCommand('setting.merge', (arg: any) => {
+		if (!isObject(arg)) {
+			window.showWarningMessage('Argument must be an object');
+			return;
+		}
+		const settings = workspace.getConfiguration(undefined, null);// tslint:disable-line
+		const settingName = arg.setting;
+		if (typeof settingName !== 'string') {
+			window.showWarningMessage('Must provide `setting`');
+			return;
+		}
+		const objectToMerge = arg.value;
+		if (!isObject(objectToMerge)) {
+			window.showWarningMessage('`value` must be an Object');
+			return;
+		}
+		const oldValue = settings.get(settingName);
+		const newValue = merge(oldValue, objectToMerge);
+		settings.update(settingName, newValue, true);
+	});
 
 	function registerCommands(configCommands: IConfig['commands']) {
 		for (const key in configCommands) {
@@ -195,7 +217,7 @@ export function activate(extensionContext: ExtensionContext) {
 		}
 	}
 
-	extensionContext.subscriptions.push(runCommandsView, runCommand, openFolder, toggleGlobalSetting, revealCommand, incrementGlobalSetting, decrementGlobalSetting);
+	extensionContext.subscriptions.push(runCommandsView, runCommand, openFolder, toggleGlobalSetting, revealCommand, incrementGlobalSetting, decrementGlobalSetting, settingMerge);
 	extensionContext.subscriptions.push(workspace.onDidChangeConfiguration(updateConfig, EXTENSION_NAME));
 }
 
