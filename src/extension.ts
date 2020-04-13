@@ -13,6 +13,9 @@ export function activate(extensionContext: ExtensionContext): void {
 
 	registerCommands(config.commands);
 
+	// ──────────────────────────────────────────────────────────────────────
+	// ──── Register vscode Commands ────────────────────────────────────────
+	// ──────────────────────────────────────────────────────────────────────
 	const settingMerge = commands.registerCommand('setting.merge', (arg: any) => {
 		if (!isObject(arg)) {
 			window.showWarningMessage('Argument must be an object');
@@ -33,40 +36,6 @@ export function activate(extensionContext: ExtensionContext): void {
 		const newValue = merge(oldValue, objectToMerge);
 		settings.update(settingName, newValue, true);
 	});
-
-	function registerCommands(configCommands: IConfig['commands']): void {
-		for (const key in configCommands) {
-			const command = configCommands[key];
-			if (typeof command === 'string' || Array.isArray(command)) {
-				continue;
-			}
-			if (command && command.registerId) {
-				registeredCommandsList.push(vscode.commands.registerCommand(command.registerId, () => {
-					const sequence = [];
-					for (const item of command.sequence) {
-						if (typeof item === 'string') {
-							sequence.push({
-								command: item,
-							});
-						} else {
-							sequence.push(item);
-						}
-					}
-					vscode.commands.executeCommand(`${EXTENSION_NAME}.runCommand`, sequence);
-				}));
-			}
-			if (command && command.items) {
-				registerCommands(command.items);
-			}
-		}
-	}
-	function unregisterCommands(): void {
-		registeredCommandsList.forEach(command => {
-			command.dispose();
-		});
-		registeredCommandsList.length = 0;
-	}
-
 	const toggleGlobalSetting = commands.registerCommand(`${EXTENSION_NAME}.toggleSetting`, (arg: IToggleSetting | string) => {
 		const settings = workspace.getConfiguration(undefined, null);// tslint:disable-line
 
@@ -128,6 +97,72 @@ export function activate(extensionContext: ExtensionContext): void {
 		}
 		incrementSetting(setting, -value);
 	});
+	const runCommand = commands.registerCommand(`${EXTENSION_NAME}.runCommand`, async (commandsToRun: any[]) => {
+		for (const command of commandsToRun) {
+			if (typeof command === 'string') {
+				await commands.executeCommand(command);
+			} else {
+				if (isObject(command)) {
+					if (typeof command.delayBefore === 'number') {
+						await delay(command.delayBefore);
+					}
+					let args = command.args;
+
+					if (command.command === 'vscode.openFolder') {
+						args = Uri.file(command.args);// tslint:disable-line
+					}
+
+					await commands.executeCommand(command.command, args);// tslint:disable-line
+				}
+			}
+		}
+	});
+	const openFolder = commands.registerCommand('openFolder', async (path: string) => {
+		await commands.executeCommand('vscode.openFolder', Uri.file(path));
+	});
+	const revealCommand = vscode.commands.registerCommand(`${EXTENSION_NAME}.revealCommand`, async (com: RunCommand) => {
+		const symbolName = com.label;
+		const activeTextEditor = vscode.window.activeTextEditor;
+		if (activeTextEditor && activeTextEditor.document.fileName.endsWith('settings.json') && activeTextEditor.document.languageId === 'jsonc') {
+			revealInSettings(symbolName);
+			return;
+		}
+		await revealInSettings(symbolName, true);
+	});
+	// ──────────────────────────────────────────────────────────────────────
+	function registerCommands(configCommands: IConfig['commands']): void {
+		for (const key in configCommands) {
+			const command = configCommands[key];
+			if (typeof command === 'string' || Array.isArray(command)) {
+				continue;
+			}
+			if (command && command.registerId) {
+				registeredCommandsList.push(vscode.commands.registerCommand(command.registerId, () => {
+					const sequence = [];
+					for (const item of command.sequence) {
+						if (typeof item === 'string') {
+							sequence.push({
+								command: item,
+							});
+						} else {
+							sequence.push(item);
+						}
+					}
+					vscode.commands.executeCommand(`${EXTENSION_NAME}.runCommand`, sequence);
+				}));
+			}
+			if (command && command.items) {
+				registerCommands(command.items);
+			}
+		}
+	}
+	function unregisterCommands(): void {
+		registeredCommandsList.forEach(command => {
+			command.dispose();
+		});
+		registeredCommandsList.length = 0;
+	}
+
 	function incrementSetting(settingName: any, n: any): void {
 		if (typeof settingName !== 'string') {
 			window.showWarningMessage('Setting name must be a string');
@@ -151,45 +186,10 @@ export function activate(extensionContext: ExtensionContext): void {
 		return idx === arr.length - 1 ? arr[0] : arr[idx + 1];
 	}
 
-	const runCommand = commands.registerCommand(`${EXTENSION_NAME}.runCommand`, async (commandsToRun: any[]) => {
-		for (const command of commandsToRun) {
-			if (typeof command === 'string') {
-				await commands.executeCommand(command);
-			} else {
-				if (isObject(command)) {
-					if (typeof command.delayBefore === 'number') {
-						await delay(command.delayBefore);
-					}
-					let args = command.args;
-
-					if (command.command === 'vscode.openFolder') {
-						args = Uri.file(command.args);// tslint:disable-line
-					}
-
-					await commands.executeCommand(command.command, args);// tslint:disable-line
-				}
-			}
-		}
-	});
-
-	const openFolder = commands.registerCommand('openFolder', async (path: string) => {
-		await commands.executeCommand('vscode.openFolder', Uri.file(path));
-	});
-
 	const runCommandsProvider = new RunCommandsProvider(config);
 	const runCommandsView = vscode.window.createTreeView(`${EXTENSION_NAME}.tree`, {
 		treeDataProvider: runCommandsProvider,
 		showCollapseAll: true,
-	});
-
-	const revealCommand = vscode.commands.registerCommand(`${EXTENSION_NAME}.revealCommand`, async (com: RunCommand) => {
-		const symbolName = com.label;
-		const activeTextEditor = vscode.window.activeTextEditor;
-		if (activeTextEditor && activeTextEditor.document.fileName.endsWith('settings.json') && activeTextEditor.document.languageId === 'jsonc') {
-			revealInSettings(symbolName);
-			return;
-		}
-		await revealInSettings(symbolName, true);
 	});
 
 	async function revealInSettings(symbolName: string, shouldOpenSettings = false): Promise<void> {
@@ -213,7 +213,9 @@ export function activate(extensionContext: ExtensionContext): void {
 			registerCommands(config.commands);
 		}
 	}
-
+	// ──────────────────────────────────────────────────────────────────────
+	// ──── Subscriptions ───────────────────────────────────────────────────
+	// ──────────────────────────────────────────────────────────────────────
 	extensionContext.subscriptions.push(runCommandsView, runCommand, openFolder, toggleGlobalSetting, revealCommand, incrementGlobalSetting, decrementGlobalSetting, settingMerge);
 	extensionContext.subscriptions.push(workspace.onDidChangeConfiguration(updateConfig, EXTENSION_NAME));
 }
