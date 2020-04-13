@@ -1,7 +1,6 @@
 'use strict';
 import merge from 'lodash/merge';
-import { commands, ConfigurationChangeEvent, ExtensionContext, Uri, window, workspace } from 'vscode';
-import * as vscode from 'vscode';
+import vscode, { commands, ConfigurationChangeEvent, ExtensionContext, Uri, window, workspace } from 'vscode';
 
 import { RunCommand, RunCommandsProvider } from './provider';
 import { IConfig, IToggleSetting } from './types';
@@ -9,7 +8,7 @@ import { delay, isObject } from './utils';
 
 export const EXTENSION_NAME = 'run-commands-view';
 
-export function activate(extensionContext: ExtensionContext) {
+export function activate(extensionContext: ExtensionContext): void {
 	const config = JSON.parse(JSON.stringify(workspace.getConfiguration(EXTENSION_NAME))) as IConfig;
 	const registeredCommandsList: vscode.Disposable[] = [];
 
@@ -36,7 +35,7 @@ export function activate(extensionContext: ExtensionContext) {
 		settings.update(settingName, newValue, true);
 	});
 
-	function registerCommands(configCommands: IConfig['commands']) {
+	function registerCommands(configCommands: IConfig['commands']): void {
 		for (const key in configCommands) {
 			const command = configCommands[key];
 			if (typeof command === 'string' || Array.isArray(command)) {
@@ -62,7 +61,7 @@ export function activate(extensionContext: ExtensionContext) {
 			}
 		}
 	}
-	function unregisterCommands() {
+	function unregisterCommands(): void {
 		registeredCommandsList.forEach(command => {
 			command.dispose();
 		});
@@ -88,7 +87,7 @@ export function activate(extensionContext: ExtensionContext) {
 			if (Array.isArray(settingValues)) {
 				const next = getNextOrFirstElement(settingValues, currentSettingValue);
 				settings.update(settingName, next, true);
-			} else if (typeof settingValues === 'string') {// tslint:disable-line
+			} else if (typeof settingValues === 'string') { // tslint:disable-line
 				// Handle comma separated string here (assume it's an array of strings)
 				if (settingValues.indexOf(',')) {
 					const allValues = settingValues.split(',');
@@ -176,7 +175,7 @@ export function activate(extensionContext: ExtensionContext) {
 	});
 
 	const openFolder = commands.registerCommand('openFolder', async (path: string) => {
-		commands.executeCommand('vscode.openFolder', Uri.file(path));
+		await commands.executeCommand('vscode.openFolder', Uri.file(path));
 	});
 
 	const runCommandsProvider = new RunCommandsProvider(config);
@@ -192,10 +191,10 @@ export function activate(extensionContext: ExtensionContext) {
 			revealInSettings(symbolName);
 			return;
 		}
-		revealInSettings(symbolName, true);
+		await revealInSettings(symbolName, true);
 	});
 
-	async function revealInSettings(symbolName: string, shouldOpenSettings = false) {
+	async function revealInSettings(symbolName: string, shouldOpenSettings = false): Promise<void> {
 		const delayBeforeQuickOpen = shouldOpenSettings ? 1300 : 0;
 		if (shouldOpenSettings) {
 			await vscode.commands.executeCommand('workbench.action.openSettingsJson');
@@ -205,7 +204,7 @@ export function activate(extensionContext: ExtensionContext) {
 		}, delayBeforeQuickOpen);
 	}
 
-	function updateConfig(e: ConfigurationChangeEvent) {
+	function updateConfig(e: ConfigurationChangeEvent): void {
 		if (!e.affectsConfiguration(EXTENSION_NAME)) return;
 
 		const newConfig = JSON.parse(JSON.stringify(workspace.getConfiguration(EXTENSION_NAME))) as IConfig;
@@ -221,4 +220,4 @@ export function activate(extensionContext: ExtensionContext) {
 	extensionContext.subscriptions.push(workspace.onDidChangeConfiguration(updateConfig, EXTENSION_NAME));
 }
 
-export function deactivate() { }
+export function deactivate(): void { }

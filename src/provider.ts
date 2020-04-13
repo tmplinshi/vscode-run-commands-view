@@ -1,17 +1,18 @@
-import { Command, Event, EventEmitter, TreeDataProvider, TreeItem, TreeItemCollapsibleState } from 'vscode';
-import * as vscode from 'vscode';
+import vscode, { Command, Event, EventEmitter, TreeDataProvider, TreeItem, TreeItemCollapsibleState } from 'vscode';
+
 import { EXTENSION_NAME } from './extension';
 import { IConfig } from './types';
 import { isObject } from './utils';
 
 export class RunCommand extends TreeItem {
 	collapsibleState: TreeItemCollapsibleState;
+	contextValue = 'command';
 
 	constructor(
 		readonly label: string,
 		readonly command: Command | undefined,
 		readonly collapseFoldersByDefault: boolean,
-		readonly items?: object,
+		readonly items?: object
 	) {
 		super(label);
 
@@ -23,17 +24,14 @@ export class RunCommand extends TreeItem {
 			this.collapsibleState = TreeItemCollapsibleState.None;
 		}
 	}
-
-	contextValue = 'command';
 }
 
 export class RunCommandsProvider implements TreeDataProvider<RunCommand> {
-
 	private readonly _onDidChangeTreeData: EventEmitter<RunCommand | undefined> = new EventEmitter<RunCommand | undefined>();
 	readonly onDidChangeTreeData: Event<RunCommand | undefined> = this._onDidChangeTreeData.event;
 
 	constructor(
-		private config: IConfig,
+		private config: IConfig
 	) { }
 
 	refresh(): void {
@@ -48,7 +46,7 @@ export class RunCommandsProvider implements TreeDataProvider<RunCommand> {
 		return element;
 	}
 
-	getChildren(element?: RunCommand) {
+	getChildren(element?: RunCommand): RunCommand[] {
 		if (element && element.items) {
 			return this.parseCommands(element.items);
 		} else {
@@ -57,14 +55,14 @@ export class RunCommandsProvider implements TreeDataProvider<RunCommand> {
 		}
 	}
 
-	private parseCommands(commands: object) {
+	private parseCommands(commands: object): RunCommand[] {
 		const result = [];
 		for (const key in commands) {
 			const command = commands[key];
 			if (typeof command !== 'string' && !isObject(command) && !Array.isArray(command)) {
 				continue;
 			}
-			let sequence: any[] = [];
+			const sequence: any[] = [];
 			let items: object | undefined;
 			// @ts-ignore
 			if (command && command.excludeFromView) {
@@ -86,11 +84,11 @@ export class RunCommandsProvider implements TreeDataProvider<RunCommand> {
 					}
 				});
 				sequence.push(command);
-			} else if (typeof command === 'object' && command !== null) {// tslint:disable-line
+			} else if (typeof command === 'object' && command !== null) { // tslint:disable-line
 				if (command.items) {
 					items = command.items;// tslint:disable-line
 				} else if (command.sequence) {
-					command.sequence.forEach((com: any) => {// tslint:disable-line
+					command.sequence.forEach((com: any) => { // tslint:disable-line
 						if (typeof com === 'string') {
 							sequence.push({
 								command: com,
@@ -112,7 +110,7 @@ export class RunCommandsProvider implements TreeDataProvider<RunCommand> {
 					arguments: [sequence],
 				},
 				this.config.collapseFoldersByDefault,
-				items,
+				items
 			));
 		}
 		return result;
