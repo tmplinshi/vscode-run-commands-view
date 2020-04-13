@@ -154,7 +154,6 @@ export function activate(extensionContext: ExtensionContext): void {
 
 	const runCommand = commands.registerCommand(`${EXTENSION_NAME}.runCommand`, async (commandsToRun: any[]) => {
 		for (const command of commandsToRun) {
-			// console.log(JSON.stringify(command, undefined, '	'));
 			if (typeof command === 'string') {
 				await commands.executeCommand(command);
 			} else {
