@@ -1,4 +1,3 @@
-
 export interface IConfig {
 	commands: {
 		[key: string]: string | string[] | IRegister & IFolder;

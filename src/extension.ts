@@ -1,4 +1,3 @@
-'use strict';
 import merge from 'lodash/merge';
 import vscode, { commands, ConfigurationChangeEvent, ExtensionContext, Uri, window, workspace } from 'vscode';
 
