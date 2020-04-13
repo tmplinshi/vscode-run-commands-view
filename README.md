@@ -1,6 +1,6 @@
 # Run Commands View
 
-![demo](img/demo.gif)
+![demo](https://raw.githubusercontent.com/usernamehw/vscode-run-commands-view/master/img/demo.gif)
 
 ```js
 "run-commands-view.commands": {
