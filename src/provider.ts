@@ -5,7 +5,7 @@ import { IConfig } from './types';
 import { isObject } from './utils';
 
 export class RunCommand extends TreeItem {
-	collapsibleState: TreeItemCollapsibleState;
+	collapsibleState = TreeItemCollapsibleState.None;
 	contextValue = 'command';
 
 	constructor(
@@ -20,8 +20,6 @@ export class RunCommand extends TreeItem {
 			this.collapsibleState = collapseFoldersByDefault ? TreeItemCollapsibleState.Collapsed : TreeItemCollapsibleState.Expanded;
 			this.command = undefined;
 			this.iconPath = vscode.ThemeIcon.Folder;
-		} else {
-			this.collapsibleState = TreeItemCollapsibleState.None;
 		}
 	}
 }
