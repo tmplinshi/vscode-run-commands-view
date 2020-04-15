@@ -101,32 +101,29 @@ export function activate(extensionContext: ExtensionContext): void {
 		if (typeof items === 'string') {
 			await vscode.commands.executeCommand(items);
 		} else if (Array.isArray(items)) {
-			for (const item of items as (string | ICommandObject)[]) {
-				if (typeof item === 'string') {
-					await vscode.commands.executeCommand(item);
-				} else {
-					await runCommandObject(item);
-				}
-			}
+			await runArrayOfObjects(items);
 		} else if (Array.isArray(items.sequence)) {
-			for (const item of items.sequence as (string | ICommandObject)[]) {
-				if (typeof item === 'string') {
-					await vscode.commands.executeCommand(item);
-				} else {
-					await runCommandObject(item);
-				}
-			}
+			runArrayOfObjects(items.sequence);
 		} else {
 			// @ts-ignore
 			await runCommandObject(items);
 		}
-		async function runCommandObject(object: ICommandObject): Promise<void> {
-			if (object.delayBefore) {
-				await delay(object.delayBefore);
-			}
-			return await vscode.commands.executeCommand(object.command, object.args);
-		}
 	});
+	async function runArrayOfObjects(arr: (string | ICommandObject)[]): Promise<void> {
+		for (const item of arr) {
+			if (typeof item === 'string') {
+				await vscode.commands.executeCommand(item);
+			} else {
+				await runCommandObject(item);
+			}
+		}
+	}
+	async function runCommandObject(object: ICommandObject): Promise<void> {
+		if (object.delayBefore) {
+			await delay(object.delayBefore);
+		}
+		return await vscode.commands.executeCommand(object.command, object.args);
+	}
 	const openFolder = commands.registerCommand('openFolder', async (path: string) => {
 		await commands.executeCommand('vscode.openFolder', Uri.file(path));
 	});
