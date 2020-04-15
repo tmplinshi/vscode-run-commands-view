@@ -2,10 +2,11 @@ export interface IConfig {
 	/**
 	 * A bit complicated...
 	 */
-	commands: {
-		[title: string]: string | ICommandArray | IRegister & IFolder & ICommandObject;
-	};
+	commands: Items;
 	collapseFoldersByDefault: boolean;
+}
+export interface Items {
+	[title: string]: string | ICommandArray | IRegister & IFolder & ICommandObject;
 }
 /**
  * And array of either strings or ICommandsObject or a mix of them
@@ -16,6 +17,7 @@ export type ICommandArray = (string | ICommandObject)[];
  */
 export interface ICommandObject {
 	command: string;
+	sequence: any[];
 	delayBefore: number;
 	args: any;
 }

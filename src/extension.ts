@@ -2,7 +2,7 @@ import merge from 'lodash/merge';
 import vscode, { commands, ConfigurationChangeEvent, ExtensionContext, Uri, window, workspace } from 'vscode';
 
 import { RunCommand, RunCommandsProvider } from './provider';
-import { IConfig, IToggleSetting } from './types';
+import { IConfig, IToggleSetting, Items, ICommandObject } from './types';
 import { delay, isObject } from './utils';
 
 export const EXTENSION_NAME = 'run-commands-view';
@@ -97,24 +97,34 @@ export function activate(extensionContext: ExtensionContext): void {
 		}
 		incrementSetting(setting, -value);
 	});
-	const runCommand = commands.registerCommand(`${EXTENSION_NAME}.runCommand`, async (commandsToRun: any[]) => {
-		for (const command of commandsToRun) {
-			if (typeof command === 'string') {
-				await commands.executeCommand(command);
-			} else {
-				if (isObject(command)) {
-					if (typeof command.delayBefore === 'number') {
-						await delay(command.delayBefore);
-					}
-					let args = command.args;
-
-					if (command.command === 'vscode.openFolder') {
-						args = Uri.file(command.args);// tslint:disable-line
-					}
-
-					await commands.executeCommand(command.command, args);// tslint:disable-line
+	const runCommand = commands.registerCommand(`${EXTENSION_NAME}.runCommand`, async (items: Items) => {
+		if (typeof items === 'string') {
+			await vscode.commands.executeCommand(items);
+		} else if (Array.isArray(items)) {
+			for (const item of items as (string | ICommandObject)[]) {
+				if (typeof item === 'string') {
+					await vscode.commands.executeCommand(item);
+				} else {
+					await runCommandObject(item);
 				}
 			}
+		} else if (Array.isArray(items.sequence)) {
+			for (const item of items.sequence as (string | ICommandObject)[]) {
+				if (typeof item === 'string') {
+					await vscode.commands.executeCommand(item);
+				} else {
+					await runCommandObject(item);
+				}
+			}
+		} else {
+			// @ts-ignore
+			await runCommandObject(items);
+		}
+		async function runCommandObject(object: ICommandObject): Promise<void> {
+			if (object.delayBefore) {
+				await delay(object.delayBefore);
+			}
+			return await vscode.commands.executeCommand(object.command, object.args);
 		}
 	});
 	const openFolder = commands.registerCommand('openFolder', async (path: string) => {

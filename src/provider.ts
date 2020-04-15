@@ -1,7 +1,7 @@
 import vscode, { Command, Event, EventEmitter, TreeDataProvider, TreeItem, TreeItemCollapsibleState } from 'vscode';
 
 import { EXTENSION_NAME } from './extension';
-import { IConfig } from './types';
+import { IConfig, Items } from './types';
 import { isObject } from './utils';
 
 export class RunCommand extends TreeItem {
@@ -12,11 +12,11 @@ export class RunCommand extends TreeItem {
 		readonly label: string,
 		readonly command: Command | undefined,
 		readonly collapseFoldersByDefault: boolean,
-		readonly items?: object
+		readonly items?: Items
 	) {
 		super(label);
 
-		if (this.items) {
+		if (items) {
 			this.collapsibleState = collapseFoldersByDefault ? TreeItemCollapsibleState.Collapsed : TreeItemCollapsibleState.Expanded;
 			this.command = undefined;
 			this.iconPath = vscode.ThemeIcon.Folder;
@@ -46,58 +46,24 @@ export class RunCommandsProvider implements TreeDataProvider<RunCommand> {
 
 	getChildren(element?: RunCommand): RunCommand[] {
 		if (element && element.items) {
-			return this.parseCommands(element.items);
+			return this.commandsToTreeItems(element.items);
 		} else {
 			const allCommands = this.config.commands;
-			return this.parseCommands(allCommands);
+			return this.commandsToTreeItems(allCommands);
 		}
 	}
 
-	private parseCommands(commands: object): RunCommand[] {
+	private commandsToTreeItems(commands: Items): RunCommand[] {
 		const result = [];
 		for (const key in commands) {
 			const command = commands[key];
+			// Skip unsupported items (Maybe log an error?)
 			if (typeof command !== 'string' && !isObject(command) && !Array.isArray(command)) {
 				continue;
 			}
-			const sequence: any[] = [];
-			let items: object | undefined;
 			// @ts-ignore
 			if (command && command.excludeFromView) {
 				continue;
-			}
-
-			if (typeof command === 'string') {
-				sequence.push({
-					command,
-				});
-			} else if (Array.isArray(command)) {
-				command.forEach(com => {
-					if (typeof com === 'string') {
-						sequence.push({
-							command: com,
-						});
-					} else {
-						sequence.push(com);
-					}
-				});
-				sequence.push(command);
-			} else if (typeof command === 'object' && command !== null) { // tslint:disable-line
-				if (command.items) {
-					items = command.items;// tslint:disable-line
-				} else if (command.sequence) {
-					command.sequence.forEach((com: any) => { // tslint:disable-line
-						if (typeof com === 'string') {
-							sequence.push({
-								command: com,
-							});
-						} else {
-							sequence.push(com);
-						}
-					});
-				} else {
-					sequence.push(command);
-				}
 			}
 
 			result.push(new RunCommand(
@@ -105,10 +71,11 @@ export class RunCommandsProvider implements TreeDataProvider<RunCommand> {
 				{
 					command: `${EXTENSION_NAME}.runCommand`,
 					title: 'Run Command',
-					arguments: [sequence],
+					arguments: [command],
 				},
 				this.config.collapseFoldersByDefault,
-				items
+				// @ts-ignore
+				command.items
 			));
 		}
 		return result;
