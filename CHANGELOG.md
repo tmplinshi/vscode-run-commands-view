@@ -1,3 +1,8 @@
+## 0.4.0 `16 Apr 2020`
+
+- 🔨 Refactor a bit
+- ✨ Add a command to show all commands in a Quick Pick
+
 ## 0.3.10 `12 Jul 2019`
 
 - ✨ Update Activity Bar icon to match **1.37** vscode style icons
