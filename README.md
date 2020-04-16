@@ -2,6 +2,10 @@
 
 ![demo](https://raw.githubusercontent.com/usernamehw/vscode-run-commands-view/master/img/demo.gif)
 
+You can also run commands not from View but with Quick Open with `run-commands-view.openAsQuickPick`:
+
+![demo](https://raw.githubusercontent.com/usernamehw/vscode-run-commands-view/master/img/quick_pick_demo.png)
+
 ```js
 "run-commands-view.commands": {
 	// Place commands here
