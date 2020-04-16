@@ -1,5 +1,5 @@
 import merge from 'lodash/merge';
-import vscode, { commands, ConfigurationChangeEvent, ExtensionContext, Uri, window, workspace } from 'vscode';
+import vscode, { ConfigurationChangeEvent, ExtensionContext, Uri, window, workspace } from 'vscode';
 
 import { RunCommand, RunCommandsProvider } from './provider';
 import { IConfig, IToggleSetting, Items, ICommandObject } from './types';
@@ -16,7 +16,7 @@ export function activate(extensionContext: ExtensionContext): void {
 	// ──────────────────────────────────────────────────────────────────────
 	// ──── Register vscode Commands ────────────────────────────────────────
 	// ──────────────────────────────────────────────────────────────────────
-	const settingMerge = commands.registerCommand('setting.merge', (arg: any) => {
+	const settingMerge = vscode.commands.registerCommand('setting.merge', (arg: any) => {
 		if (!isObject(arg)) {
 			window.showWarningMessage('Argument must be an object');
 			return;
@@ -36,7 +36,7 @@ export function activate(extensionContext: ExtensionContext): void {
 		const newValue = merge(oldValue, objectToMerge);
 		settings.update(settingName, newValue, true);
 	});
-	const toggleGlobalSetting = commands.registerCommand(`${EXTENSION_NAME}.toggleSetting`, (arg: IToggleSetting | string) => {
+	const toggleGlobalSetting = vscode.commands.registerCommand(`${EXTENSION_NAME}.toggleSetting`, (arg: IToggleSetting | string) => {
 		const settings = workspace.getConfiguration(undefined, null);// tslint:disable-line
 
 		if (typeof arg === 'string') {
@@ -69,7 +69,7 @@ export function activate(extensionContext: ExtensionContext): void {
 			}
 		}
 	});
-	const incrementGlobalSetting = commands.registerCommand(`${EXTENSION_NAME}.incrementSetting`, (arg: string | IToggleSetting) => {
+	const incrementGlobalSetting = vscode.commands.registerCommand(`${EXTENSION_NAME}.incrementSetting`, (arg: string | IToggleSetting) => {
 		let setting;
 		let value;
 		if (typeof arg === 'string') {
@@ -83,7 +83,7 @@ export function activate(extensionContext: ExtensionContext): void {
 		}
 		incrementSetting(setting, value);
 	});
-	const decrementGlobalSetting = commands.registerCommand(`${EXTENSION_NAME}.decrementSetting`, (arg: string | IToggleSetting) => {
+	const decrementGlobalSetting = vscode.commands.registerCommand(`${EXTENSION_NAME}.decrementSetting`, (arg: string | IToggleSetting) => {
 		let setting;
 		let value;
 		if (typeof arg === 'string') {
@@ -97,7 +97,7 @@ export function activate(extensionContext: ExtensionContext): void {
 		}
 		incrementSetting(setting, -value);
 	});
-	const runCommand = commands.registerCommand(`${EXTENSION_NAME}.runCommand`, async (items: Items) => {
+	const runCommand = vscode.commands.registerCommand(`${EXTENSION_NAME}.runCommand`, async (items: Items) => {
 		if (typeof items === 'string') {
 			await vscode.commands.executeCommand(items);
 		} else if (Array.isArray(items)) {
@@ -124,8 +124,8 @@ export function activate(extensionContext: ExtensionContext): void {
 		}
 		return await vscode.commands.executeCommand(object.command, object.args);
 	}
-	const openFolder = commands.registerCommand('openFolder', async (path: string) => {
-		await commands.executeCommand('vscode.openFolder', Uri.file(path));
+	const openFolder = vscode.commands.registerCommand('openFolder', async (path: string) => {
+		await vscode.commands.executeCommand('vscode.openFolder', Uri.file(path));
 	});
 	const revealCommand = vscode.commands.registerCommand(`${EXTENSION_NAME}.revealCommand`, async (com: RunCommand) => {
 		const symbolName = com.label;
@@ -135,6 +135,26 @@ export function activate(extensionContext: ExtensionContext): void {
 			return;
 		}
 		await revealInSettings(symbolName, true);
+	});
+	const openAsQuickPick = vscode.commands.registerCommand(`${EXTENSION_NAME}.openAsQuickPick`, async () => {
+		const map = {};
+		function traverseCommands(commands: IConfig['commands']): void {
+			for (const key in commands) {
+				const command = commands[key];
+				// @ts-ignore
+				if (command && command.items) {
+					// @ts-ignore
+					traverseCommands(command.items);
+				} else {
+					map[key] = command;
+				}
+			}
+		}
+		traverseCommands(config.commands);
+		const pickedCommandTitle = await window.showQuickPick(Object.keys(map));
+		if (pickedCommandTitle) {
+			vscode.commands.executeCommand(`${EXTENSION_NAME}.runCommand`, map[pickedCommandTitle]);
+		}
 	});
 	// ──────────────────────────────────────────────────────────────────────
 	function registerCommands(configCommands: IConfig['commands']): void {
@@ -223,7 +243,7 @@ export function activate(extensionContext: ExtensionContext): void {
 	// ──────────────────────────────────────────────────────────────────────
 	// ──── Subscriptions ───────────────────────────────────────────────────
 	// ──────────────────────────────────────────────────────────────────────
-	extensionContext.subscriptions.push(runCommandsView, runCommand, openFolder, toggleGlobalSetting, revealCommand, incrementGlobalSetting, decrementGlobalSetting, settingMerge);
+	extensionContext.subscriptions.push(runCommandsView, runCommand, openFolder, toggleGlobalSetting, revealCommand, incrementGlobalSetting, decrementGlobalSetting, settingMerge, openAsQuickPick);
 	extensionContext.subscriptions.push(workspace.onDidChangeConfiguration(updateConfig, EXTENSION_NAME));
 }
 

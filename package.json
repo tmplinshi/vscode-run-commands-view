@@ -309,6 +309,11 @@
 				"category": "Run Commands View"
 			},
 			{
+				"command": "run-commands-view.openAsQuickPick",
+				"title": "Open as Quick Pick",
+				"category": "Run Commands View"
+			},
+			{
 				"command": "openFolder",
 				"title": "Open Folder"
 			}
