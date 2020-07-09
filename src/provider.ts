@@ -1,8 +1,8 @@
 import vscode, { Command, Event, EventEmitter, TreeDataProvider, TreeItem, TreeItemCollapsibleState } from 'vscode';
-
 import { EXTENSION_NAME } from './extension';
 import { IConfig, Items } from './types';
 import { isObject } from './utils';
+
 
 export class RunCommand extends TreeItem {
 	collapsibleState = TreeItemCollapsibleState.None;
@@ -33,7 +33,7 @@ export class RunCommandsProvider implements TreeDataProvider<RunCommand> {
 	) { }
 
 	refresh(): void {
-		this._onDidChangeTreeData.fire();
+		this._onDidChangeTreeData.fire(undefined);
 	}
 
 	updateConfig(newConfig: IConfig): void {
