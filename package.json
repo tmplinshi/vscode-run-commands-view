@@ -6,7 +6,7 @@
 	"publisher": "usernamehw",
 	"license": "MIT",
 	"engines": {
-		"vscode": "^1.40.0"
+		"vscode": "^1.46.0"
 	},
 	"icon": "img/icon.png",
 	"repository": {
@@ -35,7 +35,7 @@
 		"Other"
 	],
 	"activationEvents": [
-		"*"
+		"onStartupFinished"
 	],
 	"main": "./dist/extension",
 	"contributes": {
@@ -339,20 +339,20 @@
 		"watch": "webpack --mode development --watch --display=minimal"
 	},
 	"devDependencies": {
-		"@types/lodash": "^4.14.149",
-		"@types/node": "^12.12.35",
-		"@types/vscode": "^1.40.0",
-		"@typescript-eslint/eslint-plugin": "^2.28.0",
-		"@typescript-eslint/parser": "^2.28.0",
-		"eslint": "^6.8.0",
+		"@types/lodash": "^4.14.157",
+		"@types/node": "^12.12.48",
+		"@types/vscode": "^1.46.0",
+		"@typescript-eslint/eslint-plugin": "^2.34.0",
+		"@typescript-eslint/parser": "^2.34.0",
+		"eslint": "^7.4.0",
 		"eslint-plugin-no-autofix": "^1.0.1",
 		"friendly-errors-webpack-plugin": "^1.7.0",
-		"ts-loader": "^7.0.0",
-		"typescript": "^3.8.3",
-		"webpack": "^4.42.1",
-		"webpack-cli": "^3.3.11"
+		"ts-loader": "^8.0.0",
+		"typescript": "^3.9.6",
+		"webpack": "^4.43.0",
+		"webpack-cli": "^3.3.12"
 	},
 	"dependencies": {
-		"lodash": "^4.17.15"
+		"lodash": "^4.17.19"
 	}
 }
