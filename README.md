@@ -2,7 +2,7 @@
 
 ![demo](https://raw.githubusercontent.com/usernamehw/vscode-run-commands-view/master/img/demo.gif)
 
-You can also run commands with Quick Open with `run-commands-view.openAsQuickPick`:
+It's also possible to run commands from Quick Open with `run-commands-view.openAsQuickPick` command:
 
 ![demo](https://raw.githubusercontent.com/usernamehw/vscode-run-commands-view/master/img/quick_pick_demo.png)
 
