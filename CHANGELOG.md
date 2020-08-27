@@ -1,3 +1,8 @@
+## 0.4.1 `27 Aug 2020`
+
+- 📚 Add example of sending text to terminal [#6](https://github.com/usernamehw/vscode-run-commands-view/pull/6) by [pegaltier](https://github.com/pegaltier)
+- 🔨 Compile to ES2019
+
 ## 0.4.0 `16 Apr 2020`
 
 - 🔨 Refactor a bit
