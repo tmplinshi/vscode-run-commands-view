@@ -28,8 +28,6 @@
 		"@typescript-eslint/await-thenable": 0,
 		"@typescript-eslint/ban-ts-ignore": 0,
 		"@typescript-eslint/ban-types": 1,
-		"@typescript-eslint/camelcase": 1,
-		"@typescript-eslint/class-name-casing": 1,
 		"@typescript-eslint/consistent-type-definitions": [1, "interface"],
 		"@typescript-eslint/explicit-function-return-type": 1,
 		"@typescript-eslint/explicit-member-accessibility": 0,
@@ -38,7 +36,6 @@
 		"@typescript-eslint/indent": [1, "tab", {
 			"SwitchCase": 1
 		}],
-		"@typescript-eslint/interface-name-prefix": [0, "always"],
 		"@typescript-eslint/member-delimiter-style": [1, {
 			"multiline": {
 				"delimiter": "semi",
@@ -52,7 +49,7 @@
 		"@typescript-eslint/member-naming": [0, {
 			"private": "^_"
 		}],
-		"@typescript-eslint/member-ordering": 0,// TODO: enable it maybe?
+		"@typescript-eslint/member-ordering": 0,
 		"@typescript-eslint/no-array-constructor": 1,
 		"@typescript-eslint/no-empty-function": 0,
 		"@typescript-eslint/no-empty-interface": 0,
@@ -68,7 +65,7 @@
 		"@typescript-eslint/no-misused-new": 1,
 		"@typescript-eslint/no-misused-promises": 0,
 		"@typescript-eslint/no-namespace": 1,
-		"@typescript-eslint/no-non-null-assertion": 1,
+		"@typescript-eslint/no-non-null-assertion": 0,
 		"@typescript-eslint/no-parameter-properties": 0,
 		"@typescript-eslint/no-require-imports": 1,
 		"@typescript-eslint/no-type-alias": 0,
