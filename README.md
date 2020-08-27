@@ -9,7 +9,7 @@ It's also possible to run commands from Quick Open with `run-commands-view.openA
 ```js
 "run-commands-view.commands": {
 	// Place commands here
-}
+},
 ```
 
 ## The simplest example (string):
@@ -51,14 +51,12 @@ It's also possible to run commands from Quick Open with `run-commands-view.openA
 ## Using folders/hierarchy (nested commands)
 
 ```js
-"run-commands-view.commands": {
-	"Toggle Settings ====================": {
-		"items": {
-			"🔋 Toggle Status Bar": "workbench.action.toggleStatusbarVisibility",
-			"🗺 Toggle minimap": "editor.action.toggleMinimap"
-		}
-	},
-}
+"Toggle Settings ====================": {
+	"items": {
+		"🔋 Toggle Status Bar": "workbench.action.toggleStatusbarVisibility",
+		"🗺 Toggle minimap": "editor.action.toggleMinimap"
+	}
+},
 ```
 
 ## Register command to invoke it with a keybinding
@@ -70,7 +68,7 @@ It's also possible to run commands from Quick Open with `run-commands-view.openA
 		"workbench.action.toggleSidebarVisibility",
 		"editor.action.toggleMinimap"
 	]
-}
+},
 ```
 
 ## Register command without showing it in the View
@@ -83,7 +81,7 @@ It's also possible to run commands from Quick Open with `run-commands-view.openA
 		"workbench.action.toggleSidebarVisibility",
 		"editor.action.toggleMinimap"
 	]
-}
+},
 ```
 
 # Additional commands
@@ -103,6 +101,30 @@ It's also possible to run commands from Quick Open with `run-commands-view.openA
 "📝 Open File": {
 	"command": "openFolder",
 	"args": "C:\\inbox.md"
+},
+```
+
+## Use Terminal
+
+```js
+"1️⃣ run in teminal": {
+	"command": "workbench.action.terminal.sendSequence",
+	"args": {
+		"text": "npm run test\r"
+	}
+},
+"2️⃣ create new teminal": {
+	"sequence": [
+		{
+			"command": "workbench.action.terminal.new"
+		},
+		{
+			"command": "workbench.action.terminal.sendSequence",
+			"args": {
+				"text": "npm run test\r"
+			}
+		}
+	]
 },
 ```
 
