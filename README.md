@@ -126,7 +126,7 @@ It's also possible to run commands from Quick Open with `run-commands-view.openA
 		}
 	]
 }
-```js
+```
 
 ## Toggle Settings
 
