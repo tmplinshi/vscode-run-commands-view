@@ -9,7 +9,7 @@ It's also possible to run commands from Quick Open with `run-commands-view.openA
 ```js
 "run-commands-view.commands": {
 	// Place commands here
-}
+},
 ```
 
 ## The simplest example (string):
@@ -56,7 +56,7 @@ It's also possible to run commands from Quick Open with `run-commands-view.openA
 		"🔋 Toggle Status Bar": "workbench.action.toggleStatusbarVisibility",
 		"🗺 Toggle minimap": "editor.action.toggleMinimap"
 	}
-}
+},
 ```
 
 ## Register command to invoke it with a keybinding
@@ -68,7 +68,7 @@ It's also possible to run commands from Quick Open with `run-commands-view.openA
 		"workbench.action.toggleSidebarVisibility",
 		"editor.action.toggleMinimap"
 	]
-}
+},
 ```
 
 ## Register command without showing it in the View
@@ -81,7 +81,7 @@ It's also possible to run commands from Quick Open with `run-commands-view.openA
 		"workbench.action.toggleSidebarVisibility",
 		"editor.action.toggleMinimap"
 	]
-}
+},
 ```
 
 # Additional commands
@@ -125,7 +125,7 @@ It's also possible to run commands from Quick Open with `run-commands-view.openA
 			}
 		}
 	]
-}
+},
 ```
 
 ## Toggle Settings
