@@ -51,13 +51,11 @@ It's also possible to run commands from Quick Open with `run-commands-view.openA
 ## Using folders/hierarchy (nested commands)
 
 ```js
-"run-commands-view.commands": {
-	"Toggle Settings ====================": {
-		"items": {
-			"🔋 Toggle Status Bar": "workbench.action.toggleStatusbarVisibility",
-			"🗺 Toggle minimap": "editor.action.toggleMinimap"
-		}
-	},
+"Toggle Settings ====================": {
+	"items": {
+		"🔋 Toggle Status Bar": "workbench.action.toggleStatusbarVisibility",
+		"🗺 Toggle minimap": "editor.action.toggleMinimap"
+	}
 }
 ```
 
@@ -105,6 +103,30 @@ It's also possible to run commands from Quick Open with `run-commands-view.openA
 	"args": "C:\\inbox.md"
 },
 ```
+
+## Use Terminal
+
+```js
+"1️⃣ run in teminal": {
+	"command": "workbench.action.terminal.sendSequence",
+	"args": {
+		"text": "npm run test\r"
+	}
+},
+"2️⃣ create new teminal": {
+	"sequence": [
+		{
+			"command": "workbench.action.terminal.new"
+		},
+		{
+			"command": "workbench.action.terminal.sendSequence",
+			"args": {
+				"text": "npm run test\r"
+			}
+		}
+	]
+}
+```js
 
 ## Toggle Settings
 
