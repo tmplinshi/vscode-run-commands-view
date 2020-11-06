@@ -1,3 +1,11 @@
-# Set default behavior to automatically normalize line endings.
+# Handle line endings automatically for files detected as text
+# and leave all files detected as binary untouched.
 * text=auto
 
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+
+* text eol=lf
