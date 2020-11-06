@@ -1,3 +1,7 @@
+## 0.4.3 `07 Nov 2020`
+
+- 🔨 Fix README icons
+
 ## 0.4.2 `07 Nov 2020`
 
 - ✨ Support using vscode product icons [#7](https://github.com/usernamehw/vscode-run-commands-view/issues/7)
