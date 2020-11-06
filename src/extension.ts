@@ -128,6 +128,10 @@ export function activate(extensionContext: ExtensionContext): void {
 	});
 	const revealCommand = vscode.commands.registerCommand(`${EXTENSION_NAME}.revealCommand`, async (com: RunCommand) => {
 		const symbolName = com.label;
+		if (!symbolName) {
+			vscode.window.showErrorMessage('Missing label');
+			return;
+		}
 		const activeTextEditor = vscode.window.activeTextEditor;
 		if (activeTextEditor && activeTextEditor.document.fileName.endsWith('settings.json') && activeTextEditor.document.languageId === 'jsonc') {
 			revealInSettings(symbolName);
