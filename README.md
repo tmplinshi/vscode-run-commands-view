@@ -4,7 +4,7 @@
 
 It's also possible to run commands from Quick Open with `run-commands-view.openAsQuickPick` command:
 
-![demo quick pick](https://raw.githubusercontent.com/usernamehw/vscode-run-commands-view/master/img/quick_pick_demo.png)
+![demo quick pick](https://raw.githubusercontent.com/usernamehw/vscode-run-commands-view/master/img/demo_product_icon.png)
 
 ```js
 "run-commands-view.commands": {
