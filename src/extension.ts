@@ -1,8 +1,7 @@
 import merge from 'lodash/merge';
 import vscode, { ConfigurationChangeEvent, ExtensionContext, Uri, window, workspace } from 'vscode';
-
 import { RunCommand, RunCommandsProvider } from './provider';
-import { IConfig, IToggleSetting, Items, ICommandObject } from './types';
+import { ICommandObject, IConfig, Items, IToggleSetting } from './types';
 import { delay, isObject } from './utils';
 
 export const EXTENSION_NAME = 'run-commands-view';

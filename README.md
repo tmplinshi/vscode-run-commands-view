@@ -4,7 +4,7 @@
 
 It's also possible to run commands from Quick Open with `run-commands-view.openAsQuickPick` command:
 
-![demo](https://raw.githubusercontent.com/usernamehw/vscode-run-commands-view/master/img/quick_pick_demo.png)
+![demo quick pick](https://raw.githubusercontent.com/usernamehw/vscode-run-commands-view/master/img/quick_pick_demo.png)
 
 ```js
 "run-commands-view.commands": {
@@ -17,6 +17,22 @@ It's also possible to run commands from Quick Open with `run-commands-view.openA
 ```js
 "💤 Toggle Status Bar": "workbench.action.toggleStatusbarVisibility",
 ```
+
+## Use vscode product icons [Icons List](https://code.visualstudio.com/api/references/icons-in-labels)
+
+```js
+"$(zap|zapcolor) Zap": "workbench.action.toggleStatusbarVisibility",
+"$(flame|errorForeground) Flame": "workbench.action.toggleStatusbarVisibility",
+```
+
+Optionally, define colors (in `settings.json`)
+```js
+"workbench.colorCustomizations": {
+	"zapcolor": "#fff000",
+},
+```
+
+![icons demo](https://raw.githubusercontent.com/usernamehw/vscode-run-commands-view/master/img/icon_demo.png)
 
 ## Specifying arguments (object):
 
