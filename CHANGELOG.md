@@ -1,3 +1,7 @@
+## 0.4.2 `07 Nov 2020`
+
+- ✨ Support using vscode product icons [#7](https://github.com/usernamehw/vscode-run-commands-view/issues/7)
+
 ## 0.4.1 `27 Aug 2020`
 
 - 📚 Add example of sending text to terminal [#6](https://github.com/usernamehw/vscode-run-commands-view/pull/6) by [pegaltier](https://github.com/pegaltier)
